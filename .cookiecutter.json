@@ -1,0 +1,14 @@
+{
+  "_output_dir": "/home/jelmert/PycharmProjects",
+  "_template": "gh:cjolowicz/cookiecutter-hypermodern-python",
+  "author": "Jelmer Draaijer",
+  "copyright_year": "2023",
+  "development_status": "Development Status :: 4 - Beta",
+  "email": "info@jelmert.nl",
+  "friendly_name": "Signhost Api Python Client",
+  "github_user": "foarsitter",
+  "license": "MIT",
+  "package_name": "signhost",
+  "project_name": "signhost-api-python-client",
+  "version": "0.1.0"
+}
