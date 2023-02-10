@@ -108,13 +108,31 @@ class DefaultClient(BaseClient):
         )
         return self.process_response(response, models.Transaction)
 
-    def transaction_file_get(self, transaction_id: str, file_id: str):
-        response = self.client.get(f"transaction/{transaction_id}/file/{file_id}")
-        return response
+    def transaction_file_get(self, transaction_id: str, file_id: str) -> bytes:
+        """
+        GET /api/transaction/{transactionId}/file/{fileId}
 
-    def receipt_get(self, transaction_id: str):
+        Returns the contents of the (signed) document(s).
+        """
+        response = self.client.get(f"transaction/{transaction_id}/file/{file_id}")
+
+        if response.status_code == httpx.codes.OK:
+            return response.content
+
+        self.handle_error_response(response)
+
+    def receipt_get(self, transaction_id: str) -> bytes:
+        """
+        GET /api/file/receipt/{transactionId}
+
+        Returns the contents of the receipt when the transaction is successfully signed (Status=30)
+        """
         response = self.client.get(f"/api/file/receipt/{transaction_id}")
-        return response
+
+        if response.status_code == httpx.codes.OK:
+            return response.content
+
+        self.handle_error_response(response)
 
     def transaction_init(self, transaction: models.Transaction) -> models.Transaction:
         """POST /api/transaction"""
@@ -145,7 +163,15 @@ class DefaultClient(BaseClient):
                 # "Digest": f"SHA256={file_digest}",
             },
         )
-        return response
+
+        if response.status_code in [
+            httpx.codes.CREATED,
+            httpx.codes.ACCEPTED,
+            httpx.codes.NO_CONTENT,
+        ]:
+            return True
+
+        self.handle_error_response(response)
 
     def transaction_start(self, transaction_id: str) -> bool:
         """PUT /api/transaction/{transactionId}/start"""
@@ -153,7 +179,6 @@ class DefaultClient(BaseClient):
 
         if response.status_code != httpx.codes.NO_CONTENT:
             self.handle_error_response(response)
-            return False
 
         return True
 
