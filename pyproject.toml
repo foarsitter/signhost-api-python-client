@@ -24,6 +24,7 @@ click = ">=8.0.1"
 httpx = "^0.23.3"
 pydantic = "^1.10.4"
 attr = "^0.3.2"
+pyupgrade = "3.3.1"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"

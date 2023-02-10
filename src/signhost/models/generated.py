@@ -9,6 +9,9 @@ from datetime import date
 from datetime import datetime
 from enum import Enum
 from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -52,37 +55,37 @@ class Code(Enum):
 
 
 class Activity(BaseModel):
-    Id: str | None = None
-    Code: Code | None = Field(
+    Id: Optional[str] = None
+    Code: Optional[Code] = Field(
         None,
-        description="* 101 -\tInvitation sent\n* 102 -\tReceived\n* 103 -\tOpened\n* 104 -\tReminder sent\n* 105 -\tDocument opened, Info property contains the file id of the opened document.\n* 201 -\tCancelled\n* 202 -\tRejected\n* 203 -\tSigned\n* 301 -\tSigned document sent\n* 302 -\tSigned document opended\n* 303 -\tSigned document downloaded\n* 401 -\tReceipt sent\n* 402 -\tReceipt opened\n* 403 -\tReceipt downloaded\n",  # noqa
+        description="* 101 -\tInvitation sent\n* 102 -\tReceived\n* 103 -\tOpened\n* 104 -\tReminder sent\n* 105 -\tDocument opened, Info property contains the file id of the opened document.\n* 201 -\tCancelled\n* 202 -\tRejected\n* 203 -\tSigned\n* 301 -\tSigned document sent\n* 302 -\tSigned document opended\n* 303 -\tSigned document downloaded\n* 401 -\tReceipt sent\n* 402 -\tReceipt opened\n* 403 -\tReceipt downloaded\n",
     )
-    Info: str | None = Field(
+    Info: Optional[str] = Field(
         None,
         description="May contain additional information belonging to this activity",
     )
-    CreatedDateTime: datetime | None = None
+    CreatedDateTime: Optional[datetime] = None
 
 
 class Receiver(BaseModel):
     Name: str = Field(..., description="The name of the receiver.")
     Email: str = Field(..., description="The e-mail address of the reveiver.")
-    Language: str | None = Field(
+    Language: Optional[str] = Field(
         "nl-NL",
         description="The language of the receiver, only de-DE, en-US, es-ES, fr-FR, it-IT and nl-NL are allowed.",
     )
-    Subject: str | None = Field(
+    Subject: Optional[str] = Field(
         None,
-        description="The subject of the receiver email in plain text.\nMaximum of 64 characters allowed.\nOmitting this parameter will enable the default subject.\n",  # noqa
+        description="The subject of the receiver email in plain text.\nMaximum of 64 characters allowed.\nOmitting this parameter will enable the default subject.\n",
     )
     Message: str = Field(
         ...,
-        description="The email message towards the receiver in plain text. Newlines can be created by including a \\n in the json, HTML is not allowed.",  # noqa
+        description="The email message towards the receiver in plain text. Newlines can be created by including a \\n in the json, HTML is not allowed.",
     )
-    Reference: str | None = Field(None, description="The reference of the receiver.")
-    Context: dict[str, Any] | None = Field(
+    Reference: Optional[str] = Field(None, description="The reference of the receiver.")
+    Context: Optional[Dict[str, Any]] = Field(
         None,
-        description="Any valid json object which we will return back to you when doing a GET on the transaction or when we send a postback.",  # noqa
+        description="Any valid json object which we will return back to you when doing a GET on the transaction or when we send a postback.",
     )
 
 
@@ -105,7 +108,7 @@ class Type(Enum):
 class Authentication(BaseModel):
     Type: Type = Field(
         ...,
-        description="Type of the authentication object.\nThe `Type` property **must** be the first property in the json!\n\nThe order in which the authentications are provided determine in which order the signer will have to perform the specified method.\n",  # noqa
+        description="Type of the authentication object.\nThe `Type` property **must** be the first property in the json!\n\nThe order in which the authentications are provided determine in which order the signer will have to perform the specified method.\n",
     )
 
 
@@ -129,7 +132,7 @@ class Type1(Enum):
 class Verification(BaseModel):
     Type: Type1 = Field(
         ...,
-        description="Type of the verification object.\nThe `Type` property **must** be the first property in the json!\n\nThe order in which the verifications are provided determine in which order the signer will have to perform the specified method.\nYou **must** use one of the following verifications as the last method:\n- Consent\n- itsme sign*\n- PhoneNumber\n- Scribble\n- SigningCertificate*\n- ZealiD Qualified*\n\n* These verifications can not be used in any other position than the last.\n",  # noqa
+        description="Type of the verification object.\nThe `Type` property **must** be the first property in the json!\n\nThe order in which the verifications are provided determine in which order the signer will have to perform the specified method.\nYou **must** use one of the following verifications as the last method:\n- Consent\n- itsme sign*\n- PhoneNumber\n- Scribble\n- SigningCertificate*\n- ZealiD Qualified*\n\n* These verifications can not be used in any other position than the last.\n",
     )
 
 
@@ -145,90 +148,90 @@ class Betrouwbaarheidsniveau(Enum):
 
 
 class DigiD(Verification):
-    Bsn: str | None = Field(
+    Bsn: Optional[str] = Field(
         None,
-        description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",  # noqa
+        description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",
     )
-    Betrouwbaarheidsniveau: Betrouwbaarheidsniveau | None = Field(
+    Betrouwbaarheidsniveau: Optional[Betrouwbaarheidsniveau] = Field(
         None,
-        description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",  # noqa
+        description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",
     )
 
 
 class EHerkenning(Verification):
-    Uid: str | None = None
-    EntityConcernIdKvkNr: str | None = Field(
+    Uid: Optional[str] = None
+    EntityConcernIdKvkNr: Optional[str] = Field(
         None,
         description="When provided, the provided value must match the KvK number returned by eHerkenning.\n",
     )
 
 
 class IDeal(Verification):
-    Iban: str | None = Field(
+    Iban: Optional[str] = Field(
         None,
-        description="The IBAN of the signer.\nWhen provided during the creation of the transaction this IBAN is\nverified during the verification flow to make sure these and the actual IBAN number match.\n",  # noqa
+        description="The IBAN of the signer.\nWhen provided during the creation of the transaction this IBAN is\nverified during the verification flow to make sure these and the actual IBAN number match.\n",
         example="NL13TEST0123456789",
     )
-    AccountHolderName: str | None = None
-    AccountHolderCity: str | None = None
+    AccountHolderName: Optional[str] = None
+    AccountHolderCity: Optional[str] = None
 
 
 class IDIN(Verification):
-    AccountHolderName: str | None = Field(
+    AccountHolderName: Optional[str] = Field(
         None,
-        description="Name of the idin consumer / signer.\nCurrently we don't support supplying a value in this property to ensure the expected account holder name matches.\nThis could change in the future.\n",  # noqa
+        description="Name of the idin consumer / signer.\nCurrently we don't support supplying a value in this property to ensure the expected account holder name matches.\nThis could change in the future.\n",
     )
-    AccountHolderAddress1: str | None = None
-    AccountHolderAddress2: str | None = None
-    AccountHolderDateOfBirth: date | None = Field(
+    AccountHolderAddress1: Optional[str] = None
+    AccountHolderAddress2: Optional[str] = None
+    AccountHolderDateOfBirth: Optional[date] = Field(
         None,
         description="Date of birth of idin consumer / signer",
         example="2001-12-31",
     )
-    Attributes: list[str] | None = Field(
+    Attributes: Optional[List[str]] = Field(
         None,
-        description="Contains all available iDIN attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",  # noqa
+        description="Contains all available iDIN attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
     )
 
 
 class IPAddress(Verification):
-    IPAddress: str | None = None
+    IPAddress: Optional[str] = None
 
 
 class PhoneNumber(Verification):
-    Number: str | None = Field(
+    Number: Optional[str] = Field(
         None,
-        description="The mobile phone number of the signer.\nMust conform to E.164,\n[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\nwhich requires the country calling code (e.g. +31).\n",  # noqa
+        description="The mobile phone number of the signer.\nMust conform to E.164,\n[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\nwhich requires the country calling code (e.g. +31).\n",
         example="+31123456789",
     )
 
 
 class Scribble(Verification):
-    RequireHandsignature: bool | None = Field(
+    RequireHandsignature: Optional[bool] = Field(
         False,
-        description="When set the signer is required to draw a hand signature,\neither via computer mouse, trackpad, or touchscreen.\n",  # noqa
+        description="When set the signer is required to draw a hand signature,\neither via computer mouse, trackpad, or touchscreen.\n",
     )
-    ScribbleNameFixed: bool | None = Field(
+    ScribbleNameFixed: Optional[bool] = Field(
         False,
-        description="When set the signer will not be able to change its scribble name.\nWhen not set the signer can correct or provide a scribble name.\n",  # noqa
+        description="When set the signer will not be able to change its scribble name.\nWhen not set the signer can correct or provide a scribble name.\n",
     )
-    ScribbleName: str | None = Field(
+    ScribbleName: Optional[str] = Field(
         None,
-        description="The name of the signer, this will be pre filled in the scribble form.\nRequired if `ScribbleNameFixed` is set.\n",  # noqa
+        description="The name of the signer, this will be pre filled in the scribble form.\nRequired if `ScribbleNameFixed` is set.\n",
     )
 
 
 class SigningCertificate(Verification):
-    Issuer: str | None = None
-    Subject: str | None = None
-    Thumbprint: str | None = None
+    Issuer: Optional[str] = None
+    Subject: Optional[str] = None
+    Thumbprint: Optional[str] = None
 
 
 class SURFnet(Verification):
-    Uid: str | None = None
-    Attributes: list[str] | None = Field(
+    Uid: Optional[str] = None
+    Attributes: Optional[List[str]] = Field(
         None,
-        description="Contains all available SURFnet attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",  # noqa
+        description="Contains all available SURFnet attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
     )
 
 
@@ -240,16 +243,18 @@ class Rel(Enum):
 
 
 class Link(BaseModel):
-    Rel: Rel | None = Field(None, description="The type of file you can download.")
-    Type: str | None = Field(
+    Rel: Optional[Rel] = Field(None, description="The type of file you can download.")
+    Type: Optional[str] = Field(
         None,
-        description="The type of the file you can expect to download. Include this in your 'Accept' header when requesting the file.",  # noqa
+        description="The type of the file you can expect to download. Include this in your 'Accept' header when requesting the file.",
     )
-    Link: str | None = Field(None, description="Url containing the link to the file.")
+    Link: Optional[str] = Field(
+        None, description="Url containing the link to the file."
+    )
 
 
 class Signers(BaseModel):
-    FormSets: list[str] | None = Field(
+    FormSets: Optional[List[str]] = Field(
         None, description="List of formset keys to be assigned to this signer."
     )
 
@@ -262,72 +267,72 @@ class Type2(Enum):
 
 
 class Location(BaseModel):
-    Search: str | None = Field(
+    Search: Optional[str] = Field(
         None,
-        description="The text to search in the pdf document to use as the position for the field. For example `{{Signer1}}`.",  # noqa
+        description="The text to search in the pdf document to use as the position for the field. For example `{{Signer1}}`.",
     )
-    Occurence: int | None = Field(
+    Occurence: Optional[int] = Field(
         None, description="When using text search, only match this matched occurence."
     )
-    Top: int | None = Field(
+    Top: Optional[int] = Field(
         None, description="Offset from the top of the search text or the page"
     )
-    Right: int | None = Field(
+    Right: Optional[int] = Field(
         None, description="Offset from the right of the search or the page"
     )
-    Bottom: int | None = Field(
+    Bottom: Optional[int] = Field(
         None, description="Offset from the bottom of the search or the page"
     )
-    Left: int | None = Field(
+    Left: Optional[int] = Field(
         None, description="Offset from the left of the search or the page"
     )
-    Width: int | None = Field(
+    Width: Optional[int] = Field(
         None,
-        description="The width of the field, can’t be used when both Left and Right are specified.\nFor signature and seal fields we suggest a width of 140.\n",  # noqa
+        description="The width of the field, can’t be used when both Left and Right are specified.\nFor signature and seal fields we suggest a width of 140.\n",
     )
-    Height: int | None = Field(
+    Height: Optional[int] = Field(
         None,
-        description="The height of the field, can’t be used when both Bottom and Top are specified.\nFor signature and seal fields we suggest a height of 70.\n",  # noqa
+        description="The height of the field, can’t be used when both Bottom and Top are specified.\nFor signature and seal fields we suggest a height of 70.\n",
     )
-    PageNumber: int | None = Field(
+    PageNumber: Optional[int] = Field(
         None, description="On which page the field should be placed."
     )
 
 
 class FormSets(BaseModel):
-    Type: Type2 | None = Field(
+    Type: Optional[Type2] = Field(
         None,
-        description="Field type to create.\n\n* Seal is not yet implemented, this will specify the properties of a seal.\n* Signature, specifies a signature field\n* Check, specifies a checkbox. You'll have to set the `value` property\n* SingleLine, specifies a single line textbox\n",  # noqa
+        description="Field type to create.\n\n* Seal is not yet implemented, this will specify the properties of a seal.\n* Signature, specifies a signature field\n* Check, specifies a checkbox. You'll have to set the `value` property\n* SingleLine, specifies a single line textbox\n",
     )
-    Location: Location | None = Field(
+    Location: Optional[Location] = Field(
         None,
         description="Specify where the field should be placed within the document.",
     )
 
 
 class FileMetaData(BaseModel):
-    DisplayOrder: int | None = Field(
+    DisplayOrder: Optional[int] = Field(
         None, description="With what order number we'll display the file to the signer"
     )
-    DisplayName: str | None = Field(
+    DisplayName: Optional[str] = Field(
         None, description="With what name we'll display the file to the signer"
     )
-    SetParaph: bool | None = Field(
+    SetParaph: Optional[bool] = Field(
         None,
-        description="Places a copy of the signer's scribble image on the bottom right of every page where no signature is present.\nNote: due to the nature of advanced or qualified digital signatures, paraphs are merely a cosmetic addition.\n",  # noqa
+        description="Places a copy of the signer's scribble image on the bottom right of every page where no signature is present.\nNote: due to the nature of advanced or qualified digital signatures, paraphs are merely a cosmetic addition.\n",
     )
-    Signers: dict[str, Signers] | None = Field(
+    Signers: Optional[Dict[str, Signers]] = Field(
         None,
         description="Map of array of formsets.\nEach key should be a valid signer id.\n",
     )
-    FormSets: dict[str, dict[str, FormSets]] | None = Field(
+    FormSets: Optional[Dict[str, Dict[str, FormSets]]] = Field(
         None,
-        description="Map of one or more form set definitions.\nThe key of the map will be the formset name.\nThe value will be the formset definition\n",  # noqa
+        description="Map of one or more form set definitions.\nThe key of the map will be the formset name.\nThe value will be the formset definition\n",
     )
 
 
 class ErrorModel(BaseModel):
-    Message: str | None = Field(
+    Message: Optional[str] = Field(
         None, description="Message describing the error in the request."
     )
 
@@ -340,194 +345,194 @@ class Betrouwbaarheidsniveau1(Enum):
 
 
 class DigiDAuthentication(Authentication):
-    Bsn: str | None = Field(
+    Bsn: Optional[str] = Field(
         None,
-        description="The provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.          \n",  # noqa
+        description="The provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.          \n",
     )
-    Betrouwbaarheidsniveau: Betrouwbaarheidsniveau1 | None = Field(
+    Betrouwbaarheidsniveau: Optional[Betrouwbaarheidsniveau1] = Field(
         None,
-        description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",  # noqa
+        description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",
     )
 
 
 class PhoneNumberAuthentication(Authentication):
-    Number: str | None = Field(
+    Number: Optional[str] = Field(
         None,
-        description="The mobile phone number of the signer.\nMust conform to E.164,\n[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\nwhich requires the country calling code (e.g. +31).\n",  # noqa
+        description="The mobile phone number of the signer.\nMust conform to E.164,\n[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\nwhich requires the country calling code (e.g. +31).\n",
         example="+31123456789",
     )
 
 
 class EIDASLogin(Verification):
-    Uid: str | None = Field(
+    Uid: Optional[str] = Field(
         None, description="The unique identifier returned by eIDAS Login."
     )
-    Level: str | None = Field(None, description="The Level of Assurance.")
-    FirstName: str | None = Field(
+    Level: Optional[str] = Field(None, description="The Level of Assurance.")
+    FirstName: Optional[str] = Field(
         None, description="The first name of the signer as returned by eIDAS Login."
     )
-    LastName: str | None = Field(
+    LastName: Optional[str] = Field(
         None, description="The last name of the signer as returned by eIDAS Login."
     )
-    DateOfBirth: date | None = Field(
+    DateOfBirth: Optional[date] = Field(
         None, description="The date of birth of the signer as returned by eIDAS Login."
     )
-    Attributes: list[str] | None = Field(
+    Attributes: Optional[List[str]] = Field(
         None,
-        description="Contains all available eIDAS Login attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",  # noqa
+        description="Contains all available eIDAS Login attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
     )
 
 
 class ItsmeIdentification(Verification):
-    PhoneNumber: str | None = Field(
+    PhoneNumber: Optional[str] = Field(
         None,
-        description="The mobile phone number of the signer.\nMust be conform E.164,\n[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\nwhich requires the country calling code (Only the Belgian country calling code is supported: +32).\n",  # noqa
+        description="The mobile phone number of the signer.\nMust be conform E.164,\n[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\nwhich requires the country calling code (Only the Belgian country calling code is supported: +32).\n",
         example="+32123456789",
     )
-    Attributes: list[str] | None = Field(
+    Attributes: Optional[List[str]] = Field(
         None,
-        description="Contains all available itsme Identification attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",  # noqa
+        description="Contains all available itsme Identification attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
     )
 
 
 class ItsmeSign(Verification):
-    Issuer: str | None = None
-    Subject: str | None = None
-    Thumbprint: str | None = None
+    Issuer: Optional[str] = None
+    Subject: Optional[str] = None
+    Thumbprint: Optional[str] = None
 
 
 class ZealiDQualified(Verification):
-    Issuer: str | None = None
-    Subject: str | None = None
-    Thumbprint: str | None = None
+    Issuer: Optional[str] = None
+    Subject: Optional[str] = None
+    Thumbprint: Optional[str] = None
 
 
 class Signer(BaseModel):
-    Id: str | None = Field(
+    Id: Optional[str] = Field(
         None,
-        description="The id of the signer, must be unique within a transaction.\nIf you don't provide an id we will generate one for you.\n",  # noqa
+        description="The id of the signer, must be unique within a transaction.\nIf you don't provide an id we will generate one for you.\n",
     )
     Email: str = Field(
         ...,
         description="The e-mail address of the signer",
         example="john.doe@example.com",
     )
-    IntroText: str | None = Field(
+    IntroText: Optional[str] = Field(
         None,
-        description="An intro text to show to the user during the sign proces.\nThis will be shown on the first screen to the signer and supports limitted markdown markup.\n\nThe following markup is supported:\n- `# Headings`\n- `*Emphasis*` / `_Emphasis_`\n- `**Stong**` / `__Strong__`\n- `1. Ordered` and `- Unordered` lists\n",  # noqa
+        description="An intro text to show to the user during the sign proces.\nThis will be shown on the first screen to the signer and supports limitted markdown markup.\n\nThe following markup is supported:\n- `# Headings`\n- `*Emphasis*` / `_Emphasis_`\n- `**Stong**` / `__Strong__`\n- `1. Ordered` and `- Unordered` lists\n",
     )
-    Authentications: list[Authentication] | None = Field(
+    Authentications: Optional[List[Authentication]] = Field(
         None,
-        description="List of authentications that the signer has to authenticate with.\nThe order in which the authentications are provided determine in which order the signer will have to perform the specified method.\n\nAuthentications must be performed before the document(s) can be viewed.\n\nYou **must** explicitly specify the API-version when using this feature.\nThis is done with the header: 'Accept: application/vnd.signhost.v1+json'.\n",  # noqa
+        description="List of authentications that the signer has to authenticate with.\nThe order in which the authentications are provided determine in which order the signer will have to perform the specified method.\n\nAuthentications must be performed before the document(s) can be viewed.\n\nYou **must** explicitly specify the API-version when using this feature.\nThis is done with the header: 'Accept: application/vnd.signhost.v1+json'.\n",
     )
-    Verifications: list[Verification] | None = Field(
+    Verifications: Optional[List[Verification]] = Field(
         None,
-        description="List of verifications that the signer has to verify with.\nThe order in which the verifications are provided determine in which order the signer will have to perform the specified method.\n\nVerifications must be performed before the document(s) can be signed.\n\nYou **must** use one of the following verifications as the last method:\n- Consent\n- itsme sign*\n- PhoneNumber\n- Scribble\n- SigningCertificate*\n- ZealiD Qualified*\n\n* These verifications can not be used in any other position than the last.\n",  # noqa
+        description="List of verifications that the signer has to verify with.\nThe order in which the verifications are provided determine in which order the signer will have to perform the specified method.\n\nVerifications must be performed before the document(s) can be signed.\n\nYou **must** use one of the following verifications as the last method:\n- Consent\n- itsme sign*\n- PhoneNumber\n- Scribble\n- SigningCertificate*\n- ZealiD Qualified*\n\n* These verifications can not be used in any other position than the last.\n",
     )
-    SendSignRequest: bool | None = Field(
+    SendSignRequest: Optional[bool] = Field(
         True, description="Send a sign invitation to the signer his e-mail address."
     )
-    SignUrl: str | None = Field(
+    SignUrl: Optional[str] = Field(
         None,
-        description="A unique URL per signer that provides the signing flow for the signer.\nAvailable / valid if `SendSignRequest` is set to false.\n",  # noqa
+        description="A unique URL per signer that provides the signing flow for the signer.\nAvailable / valid if `SendSignRequest` is set to false.\n",
     )
-    SignRequestSubject: str | None = Field(
+    SignRequestSubject: Optional[str] = Field(
         None,
-        description="The subject of the sign request email in plain text.\nMaximum of 64 characters allowed.\nOmitting this parameter will enable the default subject.\n",  # noqa
+        description="The subject of the sign request email in plain text.\nMaximum of 64 characters allowed.\nOmitting this parameter will enable the default subject.\n",
     )
-    SignRequestMessage: str = Field(
+    SignRequestMessage: Optional[str] = Field(
         None,
-        description="The message of the sign request in plain text.\nNewlines can be created by including a \\n in the json, HTML is not allowed.\nRequired if `SendSignRequest` is true\n",  # noqa
+        description="The message of the sign request in plain text.\nNewlines can be created by including a \\n in the json, HTML is not allowed.\nRequired if `SendSignRequest` is true\n",
     )
-    SendSignConfirmation: bool | None = Field(
+    SendSignConfirmation: Optional[bool] = Field(
         None,
-        description="Send the sign confirmation to the signer his e-mail address.\nDefault value is the value of `SendSignRequest`\n",  # noqa
+        description="Send the sign confirmation to the signer his e-mail address.\nDefault value is the value of `SendSignRequest`\n",
     )
-    Language: Language1 | None = Field(
+    Language: Optional[Language1] = Field(
         "nl-NL",
-        description="The language of the receiving user, only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",  # noqa
+        description="The language of the receiving user, only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",
     )
-    ScribbleName: str | None = Field(
+    ScribbleName: Optional[str] = Field(
         None,
         description="The name of the signer, this will be pre filled in the scribble form.",
     )
-    DaysToRemind: int | None = Field(
+    DaysToRemind: Optional[int] = Field(
         7,
-        description="Amount of days before reminding the signers. -1 to disable reminders.\nIgnored if `SendSignRequest` is set to false.\nBy default your organisation's setting will be used.\n",  # noqa
+        description="Amount of days before reminding the signers. -1 to disable reminders.\nIgnored if `SendSignRequest` is set to false.\nBy default your organisation's setting will be used.\n",
     )
-    Expires: datetime | None = Field(
+    Expires: Optional[datetime] = Field(
         None,
         description="When set the signer is no longer allowed to sign the transaction after this date.",
     )
-    Reference: str | None = Field(None, description="The reference of the signer.")
-    RejectReason: str | None = Field(
+    Reference: Optional[str] = Field(None, description="The reference of the signer.")
+    RejectReason: Optional[str] = Field(
         None,
         description="The rejection reason that was given by the signer when the transaction was rejected.",
     )
-    ReturnUrl: str | None = Field(
+    ReturnUrl: Optional[str] = Field(
         "https://signhost.com",
         description="The url to redirect the user to after signing, rejecting or cancelling.",
     )
-    Context: dict[str, Any] | None = Field(
+    Context: Optional[Dict[str, Any]] = Field(
         None,
-        description="Any valid json object which we will return back to you when doing a GET on the transaction or when we send a postback.",  # noqa
+        description="Any valid json object which we will return back to you when doing a GET on the transaction or when we send a postback.",
     )
-    Activities: list[Activity] | None = Field(
+    Activities: Optional[List[Activity]] = Field(
         None,
-        description="List of activities attached to this signer.\nActivities are added by signhost when a signer event occured.\n",  # noqa
+        description="List of activities attached to this signer.\nActivities are added by signhost when a signer event occured.\n",
     )
 
 
 class FileEntry(BaseModel):
-    Links: list[Link] | None = None
-    DisplayName: str | None = Field(
+    Links: Optional[List[Link]] = None
+    DisplayName: Optional[str] = Field(
         None,
         description="The name of the document that was displayed to the user while signing the documents.",
     )
 
 
 class Transaction(BaseModel):
-    Id: str | None = Field(
+    Id: Optional[str] = Field(
         None,
-        description="The id of the transaction.\nCurrently this property is read only but this may change in the future.\n",  # noqa
+        description="The id of the transaction.\nCurrently this property is read only but this may change in the future.\n",
     )
-    Files: dict[str, FileEntry] | None = Field(
+    Files: Optional[Dict[str, FileEntry]] = Field(
         None, description="A map of files attached to this transaction."
     )
-    Language: Language | None = Field(
+    Language: Optional[Language] = Field(
         None,
-        description="The language of the sender notifications and the receipt, only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",  # noqa
+        description="The language of the sender notifications and the receipt, only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",
     )
-    Seal: bool | None = Field(
+    Seal: Optional[bool] = Field(
         False, description="Seal the document before sending to the signers."
     )
-    Signers: list[Signer] = Field(None, description="The signer information.")
-    Receivers: list[Receiver] | None = None
-    Reference: str | None = Field(
+    Signers: Optional[List[Signer]] = Field(None, description="The signer information.")
+    Receivers: Optional[List[Receiver]] = None
+    Reference: Optional[str] = Field(
         None, description='The reference of the transaction. For example "1234"'
     )
-    PostbackUrl: str | None = Field(
+    PostbackUrl: Optional[str] = Field(
         None,
         description="The absolute url to postback the status updates. For example https://example.com/postback.php",
     )
-    SignRequestMode: int | None = Field(
+    SignRequestMode: Optional[int] = Field(
         2,
-        description="Set to 1 for sending at once, to 2 for sequential.\nIgnored if `SendSignRequest` is set to false.\n",  # noqa
+        description="Set to 1 for sending at once, to 2 for sequential.\nIgnored if `SendSignRequest` is set to false.\n",
     )
-    DaysToExpire: int | None = Field(
+    DaysToExpire: Optional[int] = Field(
         60, description="Amount of days before expiration. Max 90 days."
     )
-    SendEmailNotifications: bool | None = Field(
+    SendEmailNotifications: Optional[bool] = Field(
         True, description="Send e-mail notifications to the sender."
     )
-    Status: Status | None = Field(
+    Status: Optional[Status] = Field(
         None,
-        description="Current transaction status.\n\n* 5 - Waiting for document\n* 10 - Waiting for signer\n* 20 - In progress\n* 30 - Signed (end state)\n* 40 - Rejected (end state)\n* 50 - Expired (end state)\n* 60 - Cancelled (end state)\n* 70 - Failed (end state)\n",  # noqa
+        description="Current transaction status.\n\n* 5 - Waiting for document\n* 10 - Waiting for signer\n* 20 - In progress\n* 30 - Signed (end state)\n* 40 - Rejected (end state)\n* 50 - Expired (end state)\n* 60 - Cancelled (end state)\n* 70 - Failed (end state)\n",
     )
-    CancelationReason: str | None = Field(
+    CancelationReason: Optional[str] = Field(
         None, description="The original cancellation reason given during a DELETE call."
     )
-    Context: dict[str, Any] | None = Field(
+    Context: Optional[Dict[str, Any]] = Field(
         None,
-        description="Any valid json object which we will return back to you when doing a GET on the transaction or when we send a postback.",  # noqa
+        description="Any valid json object which we will return back to you when doing a GET on the transaction or when we send a postback.",
     )

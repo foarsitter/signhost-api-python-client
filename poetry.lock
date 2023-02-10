@@ -1329,7 +1329,7 @@ files = [
 name = "pyupgrade"
 version = "3.3.1"
 description = "A tool to automatically upgrade syntax for newer versions."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1829,7 +1829,7 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 name = "tokenize-rt"
 version = "5.0.0"
 description = "A wrapper around the stdlib `tokenize` which roundtrips."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -2032,4 +2032,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "f14f266069c531a7d263a95d2a9d99acdb15dd453c236d6fddcb6d8d6fba451f"
+content-hash = "76398c565745c4bbcceaf801157df7de11fb6a6ee99269bd6d3853b273a1493e"
