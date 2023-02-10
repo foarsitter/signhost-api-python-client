@@ -21,6 +21,9 @@ Changelog = "https://github.com/foarsitter/signhost-api-python-client/releases"
 [tool.poetry.dependencies]
 python = "^3.7"
 click = ">=8.0.1"
+httpx = "^0.23.3"
+pydantic = "^1.10.4"
+attr = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
@@ -30,7 +33,6 @@ darglint = ">=1.8.1"
 flake8 = ">=4.0.1"
 flake8-bandit = ">=2.1.2"
 flake8-bugbear = ">=21.9.2"
-flake8-docstrings = ">=1.6.0"
 flake8-rst-docstrings = ">=0.2.5"
 furo = ">=2021.11.12"
 isort = ">=5.10.1"
@@ -50,6 +52,11 @@ myst-parser = {version = ">=0.16.1"}
 
 [tool.poetry.scripts]
 signhost-api-python-client = "signhost.__main__:main"
+
+[tool.poetry.group.dev.dependencies]
+respx = "^0.20.1"
+pygments = "^2.14.0"
+devtools = "^0.10.0"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
