@@ -1,0 +1,218 @@
+{
+  "https://api.signhost.com/api/transaction": {
+    "POST": {
+      "200": {
+        "Id": "806fbd1a-1b08-41b5-a505-51de95cefd1a",
+        "Status": 5,
+        "Files": {},
+        "Seal": false,
+        "Signers": [
+          {
+            "Id": "Signer1",
+            "Expires": null,
+            "Email": "jelmerdraaijer@gmail.com",
+            "Authentications": [],
+            "Verifications": [],
+            "Mobile": null,
+            "Iban": null,
+            "BSN": null,
+            "RequireScribbleName": false,
+            "RequireScribble": false,
+            "RequireEmailVerification": true,
+            "RequireSmsVerification": false,
+            "RequireIdealVerification": false,
+            "RequireDigidVerification": false,
+            "RequireSurfnetVerification": false,
+            "SendSignRequest": false,
+            "SendSignConfirmation": false,
+            "SignRequestMessage": "Please sign this document",
+            "DaysToRemind": 7,
+            "Language": "nl-NL",
+            "ScribbleName": null,
+            "ScribbleNameFixed": false,
+            "Reference": null,
+            "IntroText": null,
+            "ReturnUrl": "https://signhost.com",
+            "Activities": [],
+            "RejectReason": null,
+            "SignUrl": "https://view.signhost.com/sign/93227f1b-1b2a-4a66-88c9-c8de96a28f62",
+            "SignedDateTime": null,
+            "RejectDateTime": null,
+            "CreatedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "ModifiedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "Context": null
+          }
+        ],
+        "Receivers": [],
+        "Reference": null,
+        "PostbackUrl": null,
+        "SignRequestMode": 2,
+        "DaysToExpire": 60,
+        "SendEmailNotifications": true,
+        "Language": "nl-NL",
+        "CreatedDateTime": "2023-02-11T13:46:24.9572278+01:00",
+        "ModifiedDateTime": "2023-02-11T13:46:24.9572278+01:00",
+        "CanceledDateTime": null,
+        "Context": null
+      }
+    }
+  },
+  "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/file/file.pdf": {
+    "PUT": {
+      "201": {}
+    },
+    "GET": {
+      "200": {
+        "binary": true
+      }
+    }
+  },
+  "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/start": {
+    "PUT": {
+      "204": null
+    }
+  },
+  "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a": {
+    "GET": {
+      "200": {
+        "Id": "806fbd1a-1b08-41b5-a505-51de95cefd1a",
+        "Status": 20,
+        "Files": {
+          "file.pdf": {
+            "Links": [
+              {
+                "Rel": "file",
+                "Type": "application/pdf",
+                "Link": "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/file/file.pdf"
+              }
+            ],
+            "DisplayName": "file.pdf"
+          }
+        },
+        "Seal": false,
+        "Signers": [
+          {
+            "Id": "Signer1",
+            "Expires": null,
+            "Email": "jelmerdraaijer@gmail.com",
+            "Authentications": [],
+            "Verifications": [],
+            "Mobile": null,
+            "Iban": null,
+            "BSN": null,
+            "RequireScribbleName": false,
+            "RequireScribble": false,
+            "RequireEmailVerification": true,
+            "RequireSmsVerification": false,
+            "RequireIdealVerification": false,
+            "RequireDigidVerification": false,
+            "RequireSurfnetVerification": false,
+            "SendSignRequest": false,
+            "SendSignConfirmation": false,
+            "SignRequestMessage": "Please sign this document",
+            "DaysToRemind": 7,
+            "Language": "nl-NL",
+            "ScribbleName": null,
+            "ScribbleNameFixed": false,
+            "Reference": null,
+            "IntroText": null,
+            "ReturnUrl": "https://signhost.com",
+            "Activities": [],
+            "RejectReason": null,
+            "SignUrl": "https://view.signhost.com/sign/93227f1b-1b2a-4a66-88c9-c8de96a28f62",
+            "SignedDateTime": null,
+            "RejectDateTime": null,
+            "CreatedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "ModifiedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "Context": null
+          }
+        ],
+        "Receivers": [],
+        "Reference": null,
+        "PostbackUrl": null,
+        "SignRequestMode": 2,
+        "DaysToExpire": 60,
+        "SendEmailNotifications": true,
+        "Language": "nl-NL",
+        "CreatedDateTime": "2023-02-11T13:46:24.9572278+01:00",
+        "ModifiedDateTime": "2023-02-11T13:46:25.5893052+01:00",
+        "CanceledDateTime": null,
+        "Context": null
+      }
+    },
+    "DELETE": {
+      "200": {
+        "Id": "806fbd1a-1b08-41b5-a505-51de95cefd1a",
+        "Status": 60,
+        "Files": {
+          "file.pdf": {
+            "Links": [
+              {
+                "Rel": "file",
+                "Type": "application/pdf",
+                "Link": "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/file/file.pdf"
+              }
+            ],
+            "DisplayName": "file.pdf"
+          }
+        },
+        "Seal": false,
+        "Signers": [
+          {
+            "Id": "Signer1",
+            "Expires": null,
+            "Email": "jelmerdraaijer@gmail.com",
+            "Authentications": [],
+            "Verifications": [],
+            "Mobile": null,
+            "Iban": null,
+            "BSN": null,
+            "RequireScribbleName": false,
+            "RequireScribble": false,
+            "RequireEmailVerification": true,
+            "RequireSmsVerification": false,
+            "RequireIdealVerification": false,
+            "RequireDigidVerification": false,
+            "RequireSurfnetVerification": false,
+            "SendSignRequest": false,
+            "SendSignConfirmation": false,
+            "SignRequestMessage": "Please sign this document",
+            "DaysToRemind": 7,
+            "Language": "nl-NL",
+            "ScribbleName": null,
+            "ScribbleNameFixed": false,
+            "Reference": null,
+            "IntroText": null,
+            "ReturnUrl": "https://signhost.com",
+            "Activities": [],
+            "RejectReason": null,
+            "SignUrl": "https://view.signhost.com/sign/93227f1b-1b2a-4a66-88c9-c8de96a28f62",
+            "SignedDateTime": null,
+            "RejectDateTime": null,
+            "CreatedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "ModifiedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "Context": null
+          }
+        ],
+        "Receivers": [],
+        "Reference": null,
+        "PostbackUrl": null,
+        "SignRequestMode": 2,
+        "DaysToExpire": 60,
+        "SendEmailNotifications": true,
+        "Language": "nl-NL",
+        "CreatedDateTime": "2023-02-11T13:46:24.9572278+01:00",
+        "ModifiedDateTime": "2023-02-11T13:46:25.5893052+01:00",
+        "CanceledDateTime": "2023-02-11T13:46:25.8771409+01:00",
+        "Context": null
+      }
+    }
+  },
+  "https://api.signhost.com/api/api/file/receipt/806fbd1a-1b08-41b5-a505-51de95cefd1a": {
+    "GET": {
+      "200": {
+        "binary": true
+      }
+    }
+  }
+}

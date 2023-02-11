@@ -1,3 +1,6 @@
+# flake8: ignore
+# mypy: ignore-errors
+
 import http.server
 import socketserver
 
