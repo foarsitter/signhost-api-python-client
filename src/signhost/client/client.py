@@ -215,15 +215,14 @@ class DefaultClient(BaseClient):
                 self.write_response_to_path(response, {})
             return True
 
-        self.create_error(response)
-        return False
+        raise self.create_error(response)
 
     def transaction_start(self, transaction_id: str) -> bool:
         """PUT /api/transaction/{transactionId}/start"""
         response = self.client.put(f"transaction/{transaction_id}/start")
 
         if response.status_code != httpx.codes.NO_CONTENT:
-            self.create_error(response)
+            raise self.create_error(response)
 
         if self.safe_response:
             self.write_response_to_path(response, None)

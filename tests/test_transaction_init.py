@@ -1,3 +1,6 @@
+import pytest
+
+from signhost.client import errors
 from signhost.models import Transaction
 
 
@@ -15,3 +18,15 @@ def test_get_transaction(signhost, mocked_api, transaction_id, respx_mock, test_
     assert signhost.transaction_start(transaction_id) is True
     assert signhost.transaction_cancel(transaction_id).Id == x.Id
     assert signhost.receipt_get(transaction_id)
+
+
+def test_401(signhost, respx_mock):
+    respx_mock.get() % 401
+    with pytest.raises(errors.SignhostAuthenticationError):
+        signhost.transaction_get("")
+
+
+def test_500(signhost, respx_mock):
+    respx_mock.get() % 500
+    with pytest.raises(errors.SignhostServerError):
+        signhost.transaction_get("")
