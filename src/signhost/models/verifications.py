@@ -3,12 +3,12 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
-from typing import Annotated
 from typing import Literal
 from typing import Union
 
 from pydantic import BaseModel
 from pydantic import Field
+from typing_extensions import Annotated
 
 
 class VerificationType(Enum):
