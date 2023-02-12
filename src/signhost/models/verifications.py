@@ -51,7 +51,7 @@ class DigiD(Verification):
         description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",
         # noqa
     )
-    Betrouwbaarheidsniveau: Betrouwbaarheidsniveau | None = Field(
+    Betrouwbaarheidsniveau: Optional[Betrouwbaarheidsniveau] = Field(
         None,
         description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",
         # noqa
@@ -87,7 +87,7 @@ class IDIN(Verification):
     )
     AccountHolderAddress1: Optional[str] = None
     AccountHolderAddress2: Optional[str] = None
-    AccountHolderDateOfBirth: date | None = Field(
+    AccountHolderDateOfBirth: Optional[date] = Field(
         None,
         description="Date of birth of idin consumer / signer",
         example="2001-12-31",

@@ -16,9 +16,9 @@ def runner() -> CliRunner:
 def test_main_succeeds(runner: CliRunner, mocked_api: None) -> None:
     """It exits with a status code of zero."""
 
-    temp = tempfile.NamedTemporaryFile(delete=False)
+    with tempfile.NamedTemporaryFile() as temp:
 
-    result = runner.invoke(
-        __main__.main, ["transaction", str(temp.name), "test@pytest.io", "--yes"]
-    )
-    assert result.exit_code == 0, result
+        result = runner.invoke(
+            __main__.main, ["transaction", str(temp.name), "test@pytest.io", "--yes"]
+        )
+        assert result.exit_code == 0, result
