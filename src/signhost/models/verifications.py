@@ -40,11 +40,11 @@ class Verification(BaseModel):
 
 
 class Consent(Verification):
-    Type: Literal[VerificationType.Consent] = VerificationType.Consent
+    Type: Literal["Consent"] = "Consent"
 
 
 class DigiD(Verification):
-    Type: Literal[VerificationType.DigiD] = VerificationType.DigiD
+    Type: Literal["DigiD"] = "DigiD"
     Bsn: str | None = Field(
         None,
         description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",
@@ -58,7 +58,7 @@ class DigiD(Verification):
 
 
 class EHerkenning(Verification):
-    Type: Literal[VerificationType.eHerkenning] = VerificationType.eHerkenning
+    Type: Literal["eHerkenning"] = "eHerkenning"
     Uid: str | None = None
     EntityConcernIdKvkNr: str | None = Field(
         None,
@@ -67,7 +67,7 @@ class EHerkenning(Verification):
 
 
 class IDeal(Verification):
-    Type: Literal[VerificationType.iDeal] = VerificationType.iDeal
+    Type: Literal["iDeal"] = "iDeal"
     Iban: str | None = Field(
         None,
         description="The IBAN of the signer.\nWhen provided during the creation of the transaction this IBAN is\nverified during the verification flow to make sure these and the actual IBAN number match.\n",
@@ -79,7 +79,7 @@ class IDeal(Verification):
 
 
 class IDIN(Verification):
-    Type: Literal[VerificationType.iDIN] = VerificationType.iDIN
+    Type: Literal["iDIN"] = "iDIN"
     AccountHolderName: str | None = Field(
         None,
         description="Name of the idin consumer / signer.\nCurrently we don't support supplying a value in this property to ensure the expected account holder name matches.\nThis could change in the future.\n",
@@ -99,12 +99,12 @@ class IDIN(Verification):
 
 
 class IPAddress(Verification):
-    Type: Literal[VerificationType.IPAddress] = VerificationType.IPAddress
+    Type: Literal["IPAddress"] = "IPAddress"
     IPAddress: str | None = None
 
 
 class PhoneNumber(Verification):
-    Type: Literal[VerificationType.PhoneNumber] = VerificationType.PhoneNumber
+    Type: Literal["PhoneNumber"] = "PhoneNumber"
     Number: str | None = Field(
         None,
         description="The mobile phone number of the signer.\n"
@@ -116,7 +116,7 @@ class PhoneNumber(Verification):
 
 
 class Scribble(Verification):
-    Type: Literal[VerificationType.Scribble] = VerificationType.Scribble
+    Type: Literal["Scribble"] = "Scribble"
     RequireHandsignature: bool | None = Field(
         False,
         description="When set the signer is required to draw a hand signature,\n"
@@ -135,16 +135,14 @@ class Scribble(Verification):
 
 
 class SigningCertificate(Verification):
-    Type: Literal[
-        VerificationType.SigningCertificate
-    ] = VerificationType.SigningCertificate
+    Type: Literal["SigningCertificate"] = "SigningCertificate"
     Issuer: str | None = None
     Subject: str | None = None
     Thumbprint: str | None = None
 
 
 class SURFnet(Verification):
-    Type: Literal[VerificationType.SURFnet] = VerificationType.SURFnet
+    Type: Literal["SURFnet"] = "SURFnet"
     Uid: str | None = None
     Attributes: list[str] | None = Field(
         None,
