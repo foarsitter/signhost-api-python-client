@@ -2,18 +2,14 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any
-from typing import Dict
 from typing import Generator
 
 import pytest
 import respx
 from httpx import Response
 
+from signhost.client import RequestFixtures
 from signhost.client.client import DefaultClient
-
-
-RequestFixtures = Dict[str, Dict[str, Dict[str, Any]]]
 
 
 @pytest.fixture(scope="session")

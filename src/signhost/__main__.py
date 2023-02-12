@@ -6,6 +6,7 @@ from pathlib import Path
 import click
 import httpx
 
+from signhost.client import RequestFixtures
 from signhost.client.client import DefaultClient
 from signhost.models import Signer
 from signhost.models import Transaction
@@ -100,8 +101,8 @@ if __name__ == "__main__":
 
 
 class ResponseStorage:
-    def __init__(self):
-        self.responses = {}
+    def __init__(self) -> None:
+        self.responses: RequestFixtures = {}
 
     def __call__(self, response: httpx.Response) -> None:
 

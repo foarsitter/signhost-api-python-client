@@ -1,5 +1,6 @@
 import io
 from json import JSONDecodeError
+from typing import Any
 from typing import Dict
 from typing import Type
 from typing import TypeVar
@@ -89,12 +90,12 @@ class DefaultClient(BaseClient):
         api_key: str,
         app_key: str,
         base_url: str = "https://api.signhost.com/api/",
-        **httpx_kwargs,
+        **httpx_kwargs: Any,
     ):
         super().__init__(api_key, app_key, base_url)
         self.client = self.create_client(base_url, **httpx_kwargs)
 
-    def create_client(self, base_url, **httpx_kwargs) -> httpx.Client:
+    def create_client(self, base_url: str, **httpx_kwargs: Any) -> httpx.Client:
         httpx_kwargs.setdefault("base_url", base_url)
         httpx_kwargs.setdefault("auth", self.authenticate_request)
         return httpx.Client(**httpx_kwargs)

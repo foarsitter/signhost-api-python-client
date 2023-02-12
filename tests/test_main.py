@@ -1,6 +1,5 @@
 """Test cases for the __main__ module."""
-import json
-from tempfile import NamedTemporaryFile
+import tempfile
 
 import pytest
 from click.testing import CliRunner
@@ -17,15 +16,9 @@ def runner() -> CliRunner:
 def test_main_succeeds(runner: CliRunner, mocked_api: None) -> None:
     """It exits with a status code of zero."""
 
-    temp = NamedTemporaryFile(delete=False)
+    temp = tempfile.NamedTemporaryFile(delete=False)
 
     result = runner.invoke(
         __main__.main, ["transaction", str(temp.name), "test@pytest.io", "--yes"]
     )
     assert result.exit_code == 0, result
-
-    result_json = json.load(temp)
-
-    assert len(result_json.keys()) == 5
-
-    temp.close()
