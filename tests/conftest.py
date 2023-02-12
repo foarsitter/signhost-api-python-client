@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 from typing import Any
 from typing import Dict
+from typing import Generator
 
 import pytest
 import respx
@@ -48,7 +49,9 @@ def request_fixtures(test_fixtures_path: Path) -> RequestFixtures:
 
 
 @pytest.fixture(scope="function")
-def mocked_api(request_fixtures: RequestFixtures, test_file: Path) -> None:
+def mocked_api(
+    request_fixtures: RequestFixtures, test_file: Path
+) -> Generator[None, None, None]:
     # using a context manager here so the mock is reset after each test
     with respx.mock:
         for url, methods in request_fixtures.items():
