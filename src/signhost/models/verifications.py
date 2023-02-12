@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import date
 from enum import Enum
 from typing import Literal
+from typing import Optional
 from typing import Union
 
 from pydantic import BaseModel
@@ -45,7 +46,7 @@ class Consent(Verification):
 
 class DigiD(Verification):
     Type: Literal["DigiD"] = "DigiD"
-    Bsn: str | None = Field(
+    Bsn: Optional[str] = Field(
         None,
         description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",
         # noqa
@@ -59,8 +60,8 @@ class DigiD(Verification):
 
 class EHerkenning(Verification):
     Type: Literal["eHerkenning"] = "eHerkenning"
-    Uid: str | None = None
-    EntityConcernIdKvkNr: str | None = Field(
+    Uid: Optional[str] = None
+    EntityConcernIdKvkNr: Optional[str] = Field(
         None,
         description="When provided, the provided value must match the KvK number returned by eHerkenning.\n",
     )
@@ -68,30 +69,30 @@ class EHerkenning(Verification):
 
 class IDeal(Verification):
     Type: Literal["iDeal"] = "iDeal"
-    Iban: str | None = Field(
+    Iban: Optional[str] = Field(
         None,
         description="The IBAN of the signer.\nWhen provided during the creation of the transaction this IBAN is\nverified during the verification flow to make sure these and the actual IBAN number match.\n",
         # noqa
         example="NL13TEST0123456789",
     )
-    AccountHolderName: str | None = None
-    AccountHolderCity: str | None = None
+    AccountHolderName: Optional[str] = None
+    AccountHolderCity: Optional[str] = None
 
 
 class IDIN(Verification):
     Type: Literal["iDIN"] = "iDIN"
-    AccountHolderName: str | None = Field(
+    AccountHolderName: Optional[str] = Field(
         None,
         description="Name of the idin consumer / signer.\nCurrently we don't support supplying a value in this property to ensure the expected account holder name matches.\nThis could change in the future.\n",
     )
-    AccountHolderAddress1: str | None = None
-    AccountHolderAddress2: str | None = None
+    AccountHolderAddress1: Optional[str] = None
+    AccountHolderAddress2: Optional[str] = None
     AccountHolderDateOfBirth: date | None = Field(
         None,
         description="Date of birth of idin consumer / signer",
         example="2001-12-31",
     )
-    Attributes: list[str] | None = Field(
+    Attributes: Optional[list[str]] = Field(
         None,
         description="Contains all available iDIN attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
         # noqa
@@ -100,12 +101,12 @@ class IDIN(Verification):
 
 class IPAddress(Verification):
     Type: Literal["IPAddress"] = "IPAddress"
-    IPAddress: str | None = None
+    IPAddress: Optional[str] = None
 
 
 class PhoneNumber(Verification):
     Type: Literal["PhoneNumber"] = "PhoneNumber"
-    Number: str | None = Field(
+    Number: Optional[str] = Field(
         None,
         description="The mobile phone number of the signer.\n"
         "Must conform to E.164,\n"
@@ -117,17 +118,17 @@ class PhoneNumber(Verification):
 
 class Scribble(Verification):
     Type: Literal["Scribble"] = "Scribble"
-    RequireHandsignature: bool | None = Field(
+    RequireHandsignature: Optional[bool] = Field(
         False,
         description="When set the signer is required to draw a hand signature,\n"
         "either via computer mouse, trackpad, or touchscreen.\n",
     )
-    ScribbleNameFixed: bool | None = Field(
+    ScribbleNameFixed: Optional[bool] = Field(
         False,
         description="When set the signer will not be able to change its scribble name.\n"
         "When not set the signer can correct or provide a scribble name.\n",
     )
-    ScribbleName: str | None = Field(
+    ScribbleName: Optional[str] = Field(
         None,
         description="The name of the signer, this will be pre filled in the scribble form.\n"
         "Required if `ScribbleNameFixed` is set.\n",
@@ -136,15 +137,15 @@ class Scribble(Verification):
 
 class SigningCertificate(Verification):
     Type: Literal["SigningCertificate"] = "SigningCertificate"
-    Issuer: str | None = None
-    Subject: str | None = None
-    Thumbprint: str | None = None
+    Issuer: Optional[str] = None
+    Subject: Optional[str] = None
+    Thumbprint: Optional[str] = None
 
 
 class SURFnet(Verification):
     Type: Literal["SURFnet"] = "SURFnet"
-    Uid: str | None = None
-    Attributes: list[str] | None = Field(
+    Uid: Optional[str] = None
+    Attributes: Optional[list[str]] = Field(
         None,
         description="Contains all available SURFnet attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
         # noqa
