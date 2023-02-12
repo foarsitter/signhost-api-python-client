@@ -23,7 +23,7 @@ except ImportError:
 
 
 package = "signhost"
-python_versions = ["3.10", "3.9", "3.8", "3.7", "3.11"]
+python_versions = ["3.10", "3.9", "3.8", "3.11"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",
@@ -149,9 +149,9 @@ def safety(session: Session) -> None:
 @session(python=python_versions)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
-    args = session.posargs or ["src", "docs/conf.py"]
+    args = session.posargs or ["src", "tests", "docs/conf.py"]
     session.install(".")
-    session.install("mypy", "pytest")
+    session.install("mypy", "pytest", "respx", "devtools")
     session.run("mypy", *args)
     if not session.posargs:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")

@@ -1,16 +1,10 @@
 import io
-import json
 from json import JSONDecodeError
-from pathlib import Path
-from typing import Any
 from typing import Dict
-from typing import Optional
 from typing import Type
 from typing import TypeVar
 
 import httpx
-from httpx import Request
-from httpx import Response
 
 from .. import models
 from . import errors
@@ -40,17 +34,13 @@ class BaseClient:
         self.api_key = api_key
         self.app_key = app_key
         self.base_url = base_url
-        self.safe_response: Optional[Path] = None
 
     def process_response(
-        self, response: Response, model: Type[_T], status_code_success: int = 200
+        self, response: httpx.Response, model: Type[_T], status_code_success: int = 200
     ) -> _T:
 
         try:
             response_json = response.json()
-
-            if self.safe_response:
-                self.write_response_to_path(response, response_json)
 
             if response.status_code == status_code_success:
                 return model(**response_json)
@@ -59,40 +49,12 @@ class BaseClient:
 
         raise self.create_error(response)
 
-    def write_response_to_path(
-        self, response: httpx.Response, response_json: Any
-    ) -> None:
-        """
-        Function for saving responses to a file, so we can use it for testing
-        """
-
-        if self.safe_response:
-
-            with self.safe_response.open("rb") as outfile:
-                saved_responses = json.load(outfile)
-                if saved_responses is None:
-                    saved_responses = {}
-
-                key = str(response.url)
-                if key not in saved_responses:
-                    saved_responses[key] = {}
-                if response.request.method not in saved_responses[key]:
-                    saved_responses[key][response.request.method] = {}
-                saved_responses[key][response.request.method][
-                    str(response.status_code)
-                ] = response_json
-            with self.safe_response.open("w") as outfile:
-                json.dump(saved_responses, outfile, indent=4)
-
-    def create_error(self, response: Response) -> errors.SignhostError:
+    def create_error(self, response: httpx.Response) -> errors.SignhostError:
 
         try:
             response_json = response.json()
         except JSONDecodeError:
             response_json = {"message": response.text}
-
-        if self.safe_response:
-            self.write_response_to_path(response, response_json)
 
         response_json["status_code"] = response.status_code
 
@@ -103,13 +65,13 @@ class BaseClient:
             message="Error from server",
         )
 
-    def map_exception(self, response: Response) -> Type[errors.SignhostError]:
+    def map_exception(self, response: httpx.Response) -> Type[errors.SignhostError]:
         exception_type = self.ERROR_RESPONSE_MAPPING.get(
             response.status_code, errors.SignhostError
         )
         return exception_type
 
-    def authenticate_request(self, request: Request) -> Request:
+    def authenticate_request(self, request: httpx.Request) -> httpx.Request:
 
         request.headers["Authorization"] = f"APIKey {self.api_key}"
         request.headers["Application"] = f"APPKey {self.app_key}"
@@ -127,9 +89,15 @@ class DefaultClient(BaseClient):
         api_key: str,
         app_key: str,
         base_url: str = "https://api.signhost.com/api/",
+        **httpx_kwargs,
     ):
         super().__init__(api_key, app_key, base_url)
-        self.client = httpx.Client(base_url=base_url, auth=self.authenticate_request)
+        self.client = self.create_client(base_url, **httpx_kwargs)
+
+    def create_client(self, base_url, **httpx_kwargs) -> httpx.Client:
+        httpx_kwargs.setdefault("base_url", base_url)
+        httpx_kwargs.setdefault("auth", self.authenticate_request)
+        return httpx.Client(**httpx_kwargs)
 
     def transaction_get(self, transaction_id: str) -> models.Transaction:
         """GET /api/transaction/{transactionId}"""
@@ -157,8 +125,6 @@ class DefaultClient(BaseClient):
         response = self.client.get(f"transaction/{transaction_id}/file/{file_id}")
 
         if response.status_code == httpx.codes.OK:
-            if self.safe_response:
-                self.write_response_to_path(response, {"binary": True})
             return response.content
 
         raise self.create_error(response)
@@ -211,8 +177,6 @@ class DefaultClient(BaseClient):
             httpx.codes.ACCEPTED,
             httpx.codes.NO_CONTENT,
         ]:
-            if self.safe_response:
-                self.write_response_to_path(response, {})
             return True
 
         raise self.create_error(response)
@@ -223,9 +187,6 @@ class DefaultClient(BaseClient):
 
         if response.status_code != httpx.codes.NO_CONTENT:
             raise self.create_error(response)
-
-        if self.safe_response:
-            self.write_response_to_path(response, None)
 
         return True
 

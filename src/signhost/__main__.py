@@ -1,8 +1,10 @@
 """Command-line interface."""
+import json
 import os
 from pathlib import Path
 
 import click
+import httpx
 
 from signhost.client.client import DefaultClient
 from signhost.models import Signer
@@ -21,24 +23,29 @@ def main() -> None:
 @main.command()
 @click.argument("filename", type=click.Path())
 @click.argument("email")
+@click.option("--yes", is_flag=True, help="Skip confirmation")
 def transaction(
     filename: Path,
     email: str,
+    yes: bool,
 ) -> None:
     api_key = os.getenv("SIGNHOST_API_KEY")
     app_key = os.getenv("SIGNHOST_APP_KEY")
 
-    if not api_key or not app_key:
+    if not api_key or not app_key:  # pragma: no cover
         click.echo("Please set SIGNHOST_API_KEY and SIGNHOST_APP_KEY")
         return
 
-    client = DefaultClient(api_key, app_key)
+    log_response = ResponseStorage()
+
+    client = DefaultClient(
+        api_key,
+        app_key,
+        event_hooks={"response": [log_response]},
+    )
+
     test_dir = Path(__file__).parent.parent.parent / "tests"
     response_path = Path(filename)
-
-    response_path.write_text("{}")
-
-    client.safe_response = response_path
 
     signers = [
         Signer(
@@ -75,13 +82,40 @@ def transaction(
         client.transaction_start(transaction_created.Id)
 
         click.echo(transaction_created.Signers[0].SignUrl)
-        click.confirm("Are you done with signing?")
+
+        if not yes:
+            click.confirm("Are you done with signing?")  # pragma: no cover
 
         client.transaction_get(transaction_created.Id)
         client.transaction_file_get(transaction_created.Id, "file.pdf")
         client.transaction_cancel(transaction_created.Id)
         client.receipt_get(transaction_created.Id)
 
+    with response_path.open("w") as f:
+        json.dump(log_response.responses, f, indent=2)
+
 
 if __name__ == "__main__":
     main(prog_name="signhost")  # pragma: no cover
+
+
+class ResponseStorage:
+    def __init__(self):
+        self.responses = {}
+
+    def __call__(self, response: httpx.Response) -> None:
+
+        response.read()
+
+        if response.headers.get("content-type", "") == "application/json":
+            data = response.json()
+        else:
+            data = {"binary": True}
+
+        key = str(response.url)
+        if key not in self.responses:
+            self.responses[key] = {}
+        if response.request.method not in self.responses[key]:
+            self.responses[key][response.request.method] = {}
+
+        self.responses[key][response.request.method][str(response.status_code)] = data

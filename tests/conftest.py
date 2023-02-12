@@ -32,19 +32,11 @@ def test_fixtures_path(test_path: Path) -> Path:
 
 @pytest.fixture(scope="session")
 def signhost() -> DefaultClient:
-    api_key = os.getenv("SIGNHOST_API_KEY")
-    app_key = os.getenv("SIGNHOST_APP_KEY")
-
-    if not api_key or not app_key:
-        raise Exception("Please set SIGNHOST_API_KEY and SIGNHOST_APP_KEY")
+    api_key = os.getenv("SIGNHOST_API_KEY", "empty")
+    app_key = os.getenv("SIGNHOST_APP_KEY", "empty")
 
     client = DefaultClient(api_key, app_key)
     return client
-
-
-@pytest.fixture(scope="session")
-def safe_response(signhost: DefaultClient, test_fixtures_path: Path) -> None:
-    signhost.safe_response = test_fixtures_path
 
 
 @pytest.fixture(scope="session")
@@ -55,20 +47,23 @@ def request_fixtures(test_fixtures_path: Path) -> RequestFixtures:
     return data
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def mocked_api(request_fixtures: RequestFixtures, test_file: Path) -> None:
-    for url, methods in request_fixtures.items():
-        for method, status_codes in methods.items():
-            for status_code, response in status_codes.items():
+    # using a context manager here so the mock is reset after each test
+    with respx.mock:
+        for url, methods in request_fixtures.items():
+            for method, status_codes in methods.items():
+                for status_code, response in status_codes.items():
 
-                if response == {"binary": True}:
-                    respx.request(method=method, url=url) % Response(
-                        status_code=int(status_code), content=test_file.read_bytes()
-                    )
-                else:
-                    respx.request(method=method, url=url) % Response(
-                        status_code=int(status_code), json=response
-                    )
+                    if response == {"binary": True}:
+                        respx.request(method=method, url=url) % Response(
+                            status_code=int(status_code), content=test_file.read_bytes()
+                        )
+                    else:
+                        respx.request(method=method, url=url) % Response(
+                            status_code=int(status_code), json=response
+                        )
+        yield
 
 
 @pytest.fixture(scope="session")
