@@ -137,7 +137,7 @@ class DefaultClient(BaseClient):
 
         Returns the contents of the receipt when the transaction is successfully signed (Status=30)
         """
-        response = self.client.get(f"/api/file/receipt/{transaction_id}")
+        response = self.client.get(f"file/receipt/{transaction_id}")
 
         if response.status_code == httpx.codes.OK:
             return response.content

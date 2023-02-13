@@ -1,7 +1,7 @@
 """Command-line interface."""
-import io
 import json
 import os
+from json import JSONDecodeError
 from pathlib import Path
 
 import click
@@ -25,10 +25,12 @@ def main() -> None:
 @main.command()
 @click.argument("filename", type=click.Path())
 @click.argument("email")
+@click.argument("document", type=click.Path(exists=True))
 @click.option("--yes", is_flag=True, help="Skip confirmation")
 def transaction(
     filename: Path,
     email: str,
+    document: Path,
     yes: bool,
 ) -> None:
     api_key = os.getenv("SIGNHOST_API_KEY")
@@ -50,7 +52,6 @@ def transaction(
 
     signers = [
         Signer(
-            SendSignRequest=False,
             Email=email,
             SignRequestMessage="Please sign this document",
             Verifications=[
@@ -65,7 +66,6 @@ def transaction(
     t = Transaction(
         Language=Language.NL,
         Signers=signers,
-        PostbackUrl=os.getenv("TEST_POSTBACK_TUNNEL"),
     )
 
     transaction_created = client.transaction_init(t)
@@ -81,7 +81,7 @@ def transaction(
     client.transaction_file_put(
         transaction_created.Id,
         "file.pdf",
-        io.BytesIO(b"test"),
+        Path(document).open("rb"),
     )
     client.transaction_start(transaction_created.Id)
 
@@ -113,9 +113,9 @@ class ResponseStorage:
 
         response.read()
 
-        if response.headers.get("content-type", "") == "application/json":
+        try:
             data = response.json()
-        else:
+        except (JSONDecodeError, UnicodeDecodeError):
             data = {"binary": True}
 
         key = str(response.url)

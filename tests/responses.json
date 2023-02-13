@@ -2,7 +2,7 @@
   "https://api.signhost.com/api/transaction": {
     "POST": {
       "200": {
-        "Id": "806fbd1a-1b08-41b5-a505-51de95cefd1a",
+        "Id": "f1a5469a-cab8-40a8-bc6f-e127e1f11b10",
         "Status": 5,
         "Files": {},
         "Seal": false,
@@ -12,7 +12,14 @@
             "Expires": null,
             "Email": "jelmerdraaijer@gmail.com",
             "Authentications": [],
-            "Verifications": [],
+            "Verifications": [
+              {
+                "Type": "Scribble",
+                "RequireHandsignature": true,
+                "ScribbleNameFixed": true,
+                "ScribbleName": "Jelmer Draaijer"
+              }
+            ],
             "Mobile": null,
             "Iban": null,
             "BSN": null,
@@ -23,23 +30,23 @@
             "RequireIdealVerification": false,
             "RequireDigidVerification": false,
             "RequireSurfnetVerification": false,
-            "SendSignRequest": false,
-            "SendSignConfirmation": false,
+            "SendSignRequest": true,
+            "SendSignConfirmation": true,
             "SignRequestMessage": "Please sign this document",
             "DaysToRemind": 7,
             "Language": "nl-NL",
-            "ScribbleName": null,
+            "ScribbleName": "Jelmer Draaijer",
             "ScribbleNameFixed": false,
             "Reference": null,
             "IntroText": null,
             "ReturnUrl": "https://signhost.com",
             "Activities": [],
             "RejectReason": null,
-            "SignUrl": "https://view.signhost.com/sign/93227f1b-1b2a-4a66-88c9-c8de96a28f62",
+            "SignUrl": "https://view.signhost.com/sign/c6034914-e4b3-47a6-8a63-20a6a99c8f7b",
             "SignedDateTime": null,
             "RejectDateTime": null,
-            "CreatedDateTime": "2023-02-11T13:46:24.9572375+01:00",
-            "ModifiedDateTime": "2023-02-11T13:46:24.9572375+01:00",
+            "CreatedDateTime": "2023-02-13T12:30:54.1085273+01:00",
+            "ModifiedDateTime": "2023-02-13T12:30:54.1085273+01:00",
             "Context": null
           }
         ],
@@ -50,16 +57,16 @@
         "DaysToExpire": 60,
         "SendEmailNotifications": true,
         "Language": "nl-NL",
-        "CreatedDateTime": "2023-02-11T13:46:24.9572278+01:00",
-        "ModifiedDateTime": "2023-02-11T13:46:24.9572278+01:00",
+        "CreatedDateTime": "2023-02-13T12:30:54.1085152+01:00",
+        "ModifiedDateTime": "2023-02-13T12:30:54.1085152+01:00",
         "CanceledDateTime": null,
         "Context": null
       }
     }
   },
-  "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/file/file.pdf": {
+  "https://api.signhost.com/api/transaction/f1a5469a-cab8-40a8-bc6f-e127e1f11b10/file/file.pdf": {
     "PUT": {
-      "201": {}
+      "201": "Stored file file.pdf to transaction f1a5469a-cab8-40a8-bc6f-e127e1f11b10"
     },
     "GET": {
       "200": {
@@ -67,23 +74,25 @@
       }
     }
   },
-  "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/start": {
+  "https://api.signhost.com/api/transaction/f1a5469a-cab8-40a8-bc6f-e127e1f11b10/start": {
     "PUT": {
-      "204": null
+      "204": {
+        "binary": true
+      }
     }
   },
-  "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a": {
+  "https://api.signhost.com/api/transaction/f1a5469a-cab8-40a8-bc6f-e127e1f11b10": {
     "GET": {
       "200": {
-        "Id": "806fbd1a-1b08-41b5-a505-51de95cefd1a",
-        "Status": 20,
+        "Id": "f1a5469a-cab8-40a8-bc6f-e127e1f11b10",
+        "Status": 30,
         "Files": {
           "file.pdf": {
             "Links": [
               {
                 "Rel": "file",
                 "Type": "application/pdf",
-                "Link": "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/file/file.pdf"
+                "Link": "https://api.signhost.com/api/transaction/f1a5469a-cab8-40a8-bc6f-e127e1f11b10/file/file.pdf"
               }
             ],
             "DisplayName": "file.pdf"
@@ -96,35 +105,86 @@
             "Expires": null,
             "Email": "jelmerdraaijer@gmail.com",
             "Authentications": [],
-            "Verifications": [],
+            "Verifications": [
+              {
+                "Type": "Scribble",
+                "RequireHandsignature": true,
+                "ScribbleNameFixed": true,
+                "ScribbleName": "Jelmer Draaijer"
+              },
+              {
+                "Type": "IPAddress",
+                "IPAddress": "213.126.9.82"
+              }
+            ],
             "Mobile": null,
             "Iban": null,
             "BSN": null,
-            "RequireScribbleName": false,
-            "RequireScribble": false,
+            "RequireScribbleName": true,
+            "RequireScribble": true,
             "RequireEmailVerification": true,
             "RequireSmsVerification": false,
             "RequireIdealVerification": false,
             "RequireDigidVerification": false,
             "RequireSurfnetVerification": false,
-            "SendSignRequest": false,
-            "SendSignConfirmation": false,
+            "SendSignRequest": true,
+            "SendSignConfirmation": true,
             "SignRequestMessage": "Please sign this document",
             "DaysToRemind": 7,
             "Language": "nl-NL",
-            "ScribbleName": null,
-            "ScribbleNameFixed": false,
+            "ScribbleName": "Jelmer Draaijer",
+            "ScribbleNameFixed": true,
             "Reference": null,
             "IntroText": null,
             "ReturnUrl": "https://signhost.com",
-            "Activities": [],
+            "Activities": [
+              {
+                "Id": "74a3edf7-7b19-49a7-af45-a5d6ab3d6385",
+                "Code": 101,
+                "Activity": "InvitationSent",
+                "CreatedDateTime": "2023-02-13T12:30:56.1507869+01:00"
+              },
+              {
+                "Id": "293c8661-c562-4032-aec7-23192f0f1816",
+                "Code": 103,
+                "Activity": "Opened",
+                "CreatedDateTime": "2023-02-13T12:30:58.4900838+01:00"
+              },
+              {
+                "Id": "9a7bbf8f-7385-41dc-93cd-c69e95ca510b",
+                "Code": 105,
+                "Activity": "DocumentOpened",
+                "Info": "file.pdf",
+                "CreatedDateTime": "2023-02-13T12:30:58.7294355+01:00"
+              },
+              {
+                "Id": "001762b0-2023-4b91-abfe-23483c0b643b",
+                "Code": 203,
+                "Activity": "Signed",
+                "CreatedDateTime": "2023-02-13T12:31:05.1365588+01:00"
+              },
+              {
+                "Id": "97a794a1-28be-4faa-911c-abe1787b1e7d",
+                "Code": 301,
+                "Activity": "SignedDocumentSent",
+                "CreatedDateTime": "2023-02-13T12:31:10.6126603+01:00"
+              },
+              {
+                "Id": "2eeb87e5-4ded-4e46-9849-d61cdf103f6d",
+                "Code": 401,
+                "Activity": "ReceiptSent",
+                "CreatedDateTime": "2023-02-13T12:31:10.715033+01:00"
+              }
+            ],
             "RejectReason": null,
-            "SignUrl": "https://view.signhost.com/sign/93227f1b-1b2a-4a66-88c9-c8de96a28f62",
-            "SignedDateTime": null,
+            "SignUrl": "https://view.signhost.com/sign/c6034914-e4b3-47a6-8a63-20a6a99c8f7b",
+            "SignedDateTime": "2023-02-13T12:31:06+01:00",
             "RejectDateTime": null,
-            "CreatedDateTime": "2023-02-11T13:46:24.9572375+01:00",
-            "ModifiedDateTime": "2023-02-11T13:46:24.9572375+01:00",
-            "Context": null
+            "CreatedDateTime": "2023-02-13T12:30:54.1085273+01:00",
+            "ModifiedDateTime": "2023-02-13T12:31:07.8791757+01:00",
+            "Context": {
+              "file.pdf": {}
+            }
           }
         ],
         "Receivers": [],
@@ -134,23 +194,23 @@
         "DaysToExpire": 60,
         "SendEmailNotifications": true,
         "Language": "nl-NL",
-        "CreatedDateTime": "2023-02-11T13:46:24.9572278+01:00",
-        "ModifiedDateTime": "2023-02-11T13:46:25.5893052+01:00",
+        "CreatedDateTime": "2023-02-13T12:30:54.1085152+01:00",
+        "ModifiedDateTime": "2023-02-13T12:31:10.7317419+01:00",
         "CanceledDateTime": null,
         "Context": null
       }
     },
     "DELETE": {
       "200": {
-        "Id": "806fbd1a-1b08-41b5-a505-51de95cefd1a",
-        "Status": 60,
+        "Id": "f1a5469a-cab8-40a8-bc6f-e127e1f11b10",
+        "Status": 30,
         "Files": {
           "file.pdf": {
             "Links": [
               {
                 "Rel": "file",
                 "Type": "application/pdf",
-                "Link": "https://api.signhost.com/api/transaction/806fbd1a-1b08-41b5-a505-51de95cefd1a/file/file.pdf"
+                "Link": "https://api.signhost.com/api/transaction/f1a5469a-cab8-40a8-bc6f-e127e1f11b10/file/file.pdf"
               }
             ],
             "DisplayName": "file.pdf"
@@ -163,35 +223,86 @@
             "Expires": null,
             "Email": "jelmerdraaijer@gmail.com",
             "Authentications": [],
-            "Verifications": [],
+            "Verifications": [
+              {
+                "Type": "Scribble",
+                "RequireHandsignature": true,
+                "ScribbleNameFixed": true,
+                "ScribbleName": "Jelmer Draaijer"
+              },
+              {
+                "Type": "IPAddress",
+                "IPAddress": "213.126.9.82"
+              }
+            ],
             "Mobile": null,
             "Iban": null,
             "BSN": null,
-            "RequireScribbleName": false,
-            "RequireScribble": false,
+            "RequireScribbleName": true,
+            "RequireScribble": true,
             "RequireEmailVerification": true,
             "RequireSmsVerification": false,
             "RequireIdealVerification": false,
             "RequireDigidVerification": false,
             "RequireSurfnetVerification": false,
-            "SendSignRequest": false,
-            "SendSignConfirmation": false,
+            "SendSignRequest": true,
+            "SendSignConfirmation": true,
             "SignRequestMessage": "Please sign this document",
             "DaysToRemind": 7,
             "Language": "nl-NL",
-            "ScribbleName": null,
-            "ScribbleNameFixed": false,
+            "ScribbleName": "Jelmer Draaijer",
+            "ScribbleNameFixed": true,
             "Reference": null,
             "IntroText": null,
             "ReturnUrl": "https://signhost.com",
-            "Activities": [],
+            "Activities": [
+              {
+                "Id": "74a3edf7-7b19-49a7-af45-a5d6ab3d6385",
+                "Code": 101,
+                "Activity": "InvitationSent",
+                "CreatedDateTime": "2023-02-13T12:30:56.1507869+01:00"
+              },
+              {
+                "Id": "293c8661-c562-4032-aec7-23192f0f1816",
+                "Code": 103,
+                "Activity": "Opened",
+                "CreatedDateTime": "2023-02-13T12:30:58.4900838+01:00"
+              },
+              {
+                "Id": "9a7bbf8f-7385-41dc-93cd-c69e95ca510b",
+                "Code": 105,
+                "Activity": "DocumentOpened",
+                "Info": "file.pdf",
+                "CreatedDateTime": "2023-02-13T12:30:58.7294355+01:00"
+              },
+              {
+                "Id": "001762b0-2023-4b91-abfe-23483c0b643b",
+                "Code": 203,
+                "Activity": "Signed",
+                "CreatedDateTime": "2023-02-13T12:31:05.1365588+01:00"
+              },
+              {
+                "Id": "97a794a1-28be-4faa-911c-abe1787b1e7d",
+                "Code": 301,
+                "Activity": "SignedDocumentSent",
+                "CreatedDateTime": "2023-02-13T12:31:10.6126603+01:00"
+              },
+              {
+                "Id": "2eeb87e5-4ded-4e46-9849-d61cdf103f6d",
+                "Code": 401,
+                "Activity": "ReceiptSent",
+                "CreatedDateTime": "2023-02-13T12:31:10.715033+01:00"
+              }
+            ],
             "RejectReason": null,
-            "SignUrl": "https://view.signhost.com/sign/93227f1b-1b2a-4a66-88c9-c8de96a28f62",
-            "SignedDateTime": null,
+            "SignUrl": "https://view.signhost.com/sign/c6034914-e4b3-47a6-8a63-20a6a99c8f7b",
+            "SignedDateTime": "2023-02-13T12:31:06+01:00",
             "RejectDateTime": null,
-            "CreatedDateTime": "2023-02-11T13:46:24.9572375+01:00",
-            "ModifiedDateTime": "2023-02-11T13:46:24.9572375+01:00",
-            "Context": null
+            "CreatedDateTime": "2023-02-13T12:30:54.1085273+01:00",
+            "ModifiedDateTime": "2023-02-13T12:31:07.8791757+01:00",
+            "Context": {
+              "file.pdf": {}
+            }
           }
         ],
         "Receivers": [],
@@ -201,14 +312,14 @@
         "DaysToExpire": 60,
         "SendEmailNotifications": true,
         "Language": "nl-NL",
-        "CreatedDateTime": "2023-02-11T13:46:24.9572278+01:00",
-        "ModifiedDateTime": "2023-02-11T13:46:25.5893052+01:00",
-        "CanceledDateTime": "2023-02-11T13:46:25.8771409+01:00",
+        "CreatedDateTime": "2023-02-13T12:30:54.1085152+01:00",
+        "ModifiedDateTime": "2023-02-13T12:31:10.7317419+01:00",
+        "CanceledDateTime": "2023-02-13T12:31:28.3000123+01:00",
         "Context": null
       }
     }
   },
-  "https://api.signhost.com/api/api/file/receipt/806fbd1a-1b08-41b5-a505-51de95cefd1a": {
+  "https://api.signhost.com/api/file/receipt/f1a5469a-cab8-40a8-bc6f-e127e1f11b10": {
     "GET": {
       "200": {
         "binary": true

@@ -1,5 +1,6 @@
 """Test cases for the __main__ module."""
 import json
+from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
@@ -17,9 +18,18 @@ def test_main_succeeds(runner: CliRunner, mocked_api: None, tmp_path: str) -> No
     """It exits with a status code of zero."""
 
     with runner.isolated_filesystem():
+
+        document = Path(__file__).parent / "invoice.pdf"
+
         result = runner.invoke(
             __main__.main,
-            ["transaction", "transaction.json", "test@pytest.io", "--yes"],
+            [
+                "transaction",
+                "transaction.json",
+                "test@pytest.io",
+                str(document),
+                "--yes",
+            ],
             env={"SIGNHOST_API_KEY": "test1234", "SIGNHOST_APP_KEY": "test1234"},
         )
         assert result.exit_code == 0, result
