@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
-from typing import List, Literal
+from typing import List
+from typing import Literal
 from typing import Optional
 from typing import Union
 
