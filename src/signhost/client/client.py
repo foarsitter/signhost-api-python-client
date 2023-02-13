@@ -46,10 +46,10 @@ class BaseClient:
                 return model(**response_json)
             else:
                 raise self.create_error(response)
-        except JSONDecodeError:
+        except JSONDecodeError as e:
             raise errors.SignhostServerError(
                 "Invalid json from server", status_code=400
-            )
+            ) from e
 
     def create_error(self, response: httpx.Response) -> errors.SignhostError:
 
