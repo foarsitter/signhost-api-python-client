@@ -1,4 +1,5 @@
 """Command-line interface."""
+import io
 import json
 import os
 from pathlib import Path
@@ -45,7 +46,6 @@ def transaction(
         event_hooks={"response": [log_response]},
     )
 
-    test_dir = Path(__file__).parent.parent.parent / "tests"
     response_path = Path(filename)
 
     signers = [
@@ -70,29 +70,26 @@ def transaction(
 
     transaction_created = client.transaction_init(t)
 
-    if (
-        transaction_created.Id
-        and transaction_created.Signers
-        and len(transaction_created.Signers) > 0
-    ):
-        client.transaction_file_put(
-            transaction_created.Id,
-            "file.pdf",
-            (test_dir / "invoice.pdf").open("rb"),
-        )
-        client.transaction_start(transaction_created.Id)
+    client.transaction_file_put(
+        transaction_created.Id,
+        "file.pdf",
+        io.BytesIO(b"test"),
+    )
+    client.transaction_start(transaction_created.Id)
 
-        click.echo(transaction_created.Signers[0].SignUrl)
+    click.echo(transaction_created.Signers[0].SignUrl)
 
-        if not yes:
-            click.confirm("Are you done with signing?")  # pragma: no cover
+    if not yes:
+        click.confirm("Are you done with signing?")  # pragma: no cover
 
-        client.transaction_get(transaction_created.Id)
-        client.transaction_file_get(transaction_created.Id, "file.pdf")
-        client.transaction_cancel(transaction_created.Id)
-        client.receipt_get(transaction_created.Id)
+    client.transaction_get(transaction_created.Id)
+    client.transaction_file_get(transaction_created.Id, "file.pdf")
+    client.transaction_cancel(transaction_created.Id)
+    client.receipt_get(transaction_created.Id)
 
-    with response_path.open("w") as f:
+    click.echo(json.dumps(log_response.responses, indent=4))
+
+    with response_path.open("w+") as f:
         json.dump(log_response.responses, f, indent=2)
 
 
@@ -114,9 +111,12 @@ class ResponseStorage:
             data = {"binary": True}
 
         key = str(response.url)
+
         if key not in self.responses:
             self.responses[key] = {}
-        if response.request.method not in self.responses[key]:
+        if response.request.method not in self.responses[key]:  # pragma: no cover
             self.responses[key][response.request.method] = {}
 
-        self.responses[key][response.request.method][str(response.status_code)] = data
+        self.responses[key][response.request.method][
+            str(response.status_code)
+        ] = data  # pragma: no cover

@@ -21,15 +21,13 @@ def test_validation_discriminated_union() -> None:
 
     p = Signer.parse_obj(s.dict())
 
-    if p.Verifications and len(p.Verifications) == 10:
-
-        assert isinstance(p.Verifications[0], verifications.Consent)
-        assert isinstance(p.Verifications[1], verifications.DigiD)
-        assert isinstance(p.Verifications[2], verifications.EHerkenning)
-        assert isinstance(p.Verifications[3], verifications.IDeal)
-        assert isinstance(p.Verifications[4], verifications.IDIN)
-        assert isinstance(p.Verifications[5], verifications.IPAddress)
-        assert isinstance(p.Verifications[6], verifications.PhoneNumber)
-        assert isinstance(p.Verifications[7], verifications.Scribble)
-        assert isinstance(p.Verifications[8], verifications.SigningCertificate)
-        assert isinstance(p.Verifications[9], verifications.SURFnet)
+    assert isinstance(p.Verifications[0], verifications.Consent)
+    assert isinstance(p.Verifications[1], verifications.DigiD)
+    assert isinstance(p.Verifications[2], verifications.EHerkenning)
+    assert isinstance(p.Verifications[3], verifications.IDeal)
+    assert isinstance(p.Verifications[4], verifications.IDIN)
+    assert isinstance(p.Verifications[5], verifications.IPAddress)
+    assert isinstance(p.Verifications[6], verifications.PhoneNumber)
+    assert isinstance(p.Verifications[7], verifications.Scribble)
+    assert isinstance(p.Verifications[8], verifications.SigningCertificate)
+    assert isinstance(p.Verifications[9], verifications.SURFnet)

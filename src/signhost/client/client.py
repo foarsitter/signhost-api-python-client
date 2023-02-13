@@ -10,7 +10,6 @@ import httpx
 from .. import models
 from . import errors
 
-
 _T = TypeVar("_T")
 
 
@@ -41,14 +40,15 @@ class BaseClient:
     ) -> _T:
 
         try:
-            response_json = response.json()
-
             if response.status_code == status_code_success:
+                response_json = response.json()
                 return model(**response_json)
+            else:
+                raise self.create_error(response)
         except JSONDecodeError:
-            pass
-
-        raise self.create_error(response)
+            raise errors.SignhostServerError(
+                "Invalid json from server", status_code=400
+            )
 
     def create_error(self, response: httpx.Response) -> errors.SignhostError:
 
