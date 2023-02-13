@@ -64,6 +64,7 @@ signhost.transaction_get(transaction.Id)
 signhost.transaction_file_get(transaction.Id, "file.pdf")
 signhost.receipt_get(transaction.Id)
 ```
+
 Please see the [Command-line Reference] for details.
 
 ## Contributing
