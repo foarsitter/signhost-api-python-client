@@ -98,7 +98,7 @@ def transaction(
     click.echo(json.dumps(log_response.responses, indent=4))
 
     with response_path.open("w+") as f:
-        json.dump(log_response.responses, f, indent=2)
+        json.dump(log_response.responses, f, indent=4)
 
 
 if __name__ == "__main__":
