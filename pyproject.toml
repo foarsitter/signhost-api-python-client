@@ -25,6 +25,7 @@ httpx = "^0.23.3"
 pydantic = "^1.10.4"
 attr = "^0.3.2"
 pyupgrade = "3.3.1"
+oi = "^0.4.2"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
@@ -50,14 +51,12 @@ sphinx-click = ">=3.0.2"
 typeguard = ">=2.13.3"
 xdoctest = {extras = ["colors"], version = ">=0.15.10"}
 myst-parser = {version = ">=0.16.1"}
-
-[tool.poetry.scripts]
-signhost-api-python-client = "signhost.__main__:main"
-
-[tool.poetry.group.dev.dependencies]
 respx = "^0.20.1"
 pygments = "^2.14.0"
 devtools = "^0.10.0"
+
+[tool.poetry.scripts]
+signhost = "signhost.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -83,7 +82,6 @@ pretty = true
 show_column_numbers = true
 show_error_codes = true
 show_error_context = true
-
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

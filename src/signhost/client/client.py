@@ -1,13 +1,11 @@
+import io
 from json import JSONDecodeError
+from typing import Any
 from typing import Dict
-from typing import Optional
 from typing import Type
 from typing import TypeVar
 
 import httpx
-from httpx import Request
-from httpx import Response
-from httpx._types import FileTypes
 
 from .. import models
 from . import errors
@@ -21,8 +19,11 @@ class BaseClient:
 
     ERROR_RESPONSE_MAPPING: Dict[int, Type[errors.SignhostError]] = {
         422: errors.SignhostValidationError,
+        401: errors.SignhostAuthenticationError,
         403: errors.SignhostAuthenticationError,
         404: errors.SignhostNotFoundError,
+        400: errors.SignhostValidationError,
+        500: errors.SignhostServerError,
     }
 
     def __init__(
@@ -36,40 +37,43 @@ class BaseClient:
         self.base_url = base_url
 
     def process_response(
-        self, response: Response, model: Type[_T], status_code_success: int = 200
-    ) -> Optional[_T]:
-        if response.status_code == status_code_success:
-            return model(**response.json())
-
-        self.handle_error_response(response)
-
-        return None
-
-    def handle_error_response(self, response: Response) -> None:
-        if response.status_code == 400:
-            raise errors.SignhostValidationError(
-                response.text, status_code=response.status_code
-            )
+        self, response: httpx.Response, model: Type[_T], status_code_success: int = 200
+    ) -> _T:
 
         try:
-            json = response.json()
-        except JSONDecodeError:
-            json = {"message": response.text}
+            if response.status_code == status_code_success:
+                response_json = response.json()
+                return model(**response_json)
+            else:
+                raise self.create_error(response)
+        except JSONDecodeError as e:
+            raise errors.SignhostServerError(
+                "Invalid json from server", status_code=400
+            ) from e
 
-        json["status_code"] = response.status_code
+    def create_error(self, response: httpx.Response) -> errors.SignhostError:
+
+        try:
+            response_json = response.json()
+        except JSONDecodeError:
+            response_json = {"message": response.text}
+
+        response_json["status_code"] = response.status_code
 
         exception_type = self.map_exception(response)
-        raise exception_type(
-            status_code=response.status_code, json=json, message="Error from server"
+        return exception_type(
+            status_code=response.status_code,
+            json=response_json,
+            message="Error from server",
         )
 
-    def map_exception(self, response: Response) -> Type[errors.SignhostError]:
+    def map_exception(self, response: httpx.Response) -> Type[errors.SignhostError]:
         exception_type = self.ERROR_RESPONSE_MAPPING.get(
             response.status_code, errors.SignhostError
         )
         return exception_type
 
-    def authenticate_request(self, request: Request):
+    def authenticate_request(self, request: httpx.Request) -> httpx.Request:
 
         request.headers["Authorization"] = f"APIKey {self.api_key}"
         request.headers["Application"] = f"APPKey {self.app_key}"
@@ -87,9 +91,15 @@ class DefaultClient(BaseClient):
         api_key: str,
         app_key: str,
         base_url: str = "https://api.signhost.com/api/",
+        **httpx_kwargs: Any,
     ):
         super().__init__(api_key, app_key, base_url)
-        self.client = httpx.Client(base_url=base_url, auth=self.authenticate_request)
+        self.client = self.create_client(base_url, **httpx_kwargs)
+
+    def create_client(self, base_url: str, **httpx_kwargs: Any) -> httpx.Client:
+        httpx_kwargs.setdefault("base_url", base_url)
+        httpx_kwargs.setdefault("auth", self.authenticate_request)
+        return httpx.Client(**httpx_kwargs)
 
     def transaction_get(self, transaction_id: str) -> models.Transaction:
         """GET /api/transaction/{transactionId}"""
@@ -98,7 +108,7 @@ class DefaultClient(BaseClient):
         return self.process_response(response, models.Transaction)
 
     def transaction_cancel(
-        self, transaction_id: str, send_notifications: bool = False, reason: str = None
+        self, transaction_id: str, send_notifications: bool = False, reason: str = ""
     ) -> models.Transaction:
         """DELETE /api/transaction/{transactionId}"""
         response = self.client.request(
@@ -119,7 +129,7 @@ class DefaultClient(BaseClient):
         if response.status_code == httpx.codes.OK:
             return response.content
 
-        self.handle_error_response(response)
+        raise self.create_error(response)
 
     def receipt_get(self, transaction_id: str) -> bytes:
         """
@@ -132,7 +142,7 @@ class DefaultClient(BaseClient):
         if response.status_code == httpx.codes.OK:
             return response.content
 
-        self.handle_error_response(response)
+        raise self.create_error(response)
 
     def transaction_init(self, transaction: models.Transaction) -> models.Transaction:
         """POST /api/transaction"""
@@ -147,8 +157,8 @@ class DefaultClient(BaseClient):
         return self.process_response(response, models.Transaction)
 
     def transaction_file_put(
-        self, transaction_id: str, file_id: str, file_content: FileTypes
-    ):
+        self, transaction_id: str, file_id: str, file_content: io.IOBase
+    ) -> bool:
         """PUT /api/transaction/{transactionId}/file/{fileId}"""
         # sha = hashlib.sha256(file_content.read())
         # file_digest = base64.urlsafe_b64encode(sha.digest()).decode("utf-8")
@@ -171,14 +181,14 @@ class DefaultClient(BaseClient):
         ]:
             return True
 
-        self.handle_error_response(response)
+        raise self.create_error(response)
 
     def transaction_start(self, transaction_id: str) -> bool:
         """PUT /api/transaction/{transactionId}/start"""
         response = self.client.put(f"transaction/{transaction_id}/start")
 
         if response.status_code != httpx.codes.NO_CONTENT:
-            self.handle_error_response(response)
+            raise self.create_error(response)
 
         return True
 

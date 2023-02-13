@@ -22,3 +22,7 @@ class SignhostAuthenticationError(SignhostError):
 
 class SignhostNotFoundError(SignhostError):
     pass
+
+
+class SignhostServerError(SignhostError):
+    pass
