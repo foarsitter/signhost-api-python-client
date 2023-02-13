@@ -109,9 +109,9 @@ class PhoneNumber(Verification):
     Number: Optional[str] = Field(
         None,
         description="The mobile phone number of the signer.\n"
-                    "Must conform to E.164,\n"
-                    "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
-                    "which requires the country calling code (e.g. +31).\n",
+        "Must conform to E.164,\n"
+        "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
+        "which requires the country calling code (e.g. +31).\n",
         example="+31123456789",
     )
 
@@ -121,17 +121,17 @@ class Scribble(Verification):
     RequireHandsignature: Optional[bool] = Field(
         False,
         description="When set the signer is required to draw a hand signature,\n"
-                    "either via computer mouse, trackpad, or touchscreen.\n",
+        "either via computer mouse, trackpad, or touchscreen.\n",
     )
     ScribbleNameFixed: Optional[bool] = Field(
         False,
         description="When set the signer will not be able to change its scribble name.\n"
-                    "When not set the signer can correct or provide a scribble name.\n",
+        "When not set the signer can correct or provide a scribble name.\n",
     )
     ScribbleName: Optional[str] = Field(
         None,
         description="The name of the signer, this will be pre filled in the scribble form.\n"
-                    "Required if `ScribbleNameFixed` is set.\n",
+        "Required if `ScribbleNameFixed` is set.\n",
     )
 
 
@@ -148,9 +148,8 @@ class SURFnet(Verification):
     Attributes: Optional[List[str]] = Field(
         None,
         description="Contains all available SURFnet attributes.\n"
-                    "These attributes may change, therefore we cannot guarantee "
-                    "the availability of any of these attributes.\n",
-
+        "These attributes may change, therefore we cannot guarantee "
+        "the availability of any of these attributes.\n",
     )
 
 
