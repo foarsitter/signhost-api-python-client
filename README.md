@@ -23,11 +23,14 @@
 
 ## Features
 
-- TODO
+- 100% test coverage
 
 ## Requirements
 
-- TODO
+- httpx
+- pydantic
+- attr
+- click
 
 ## Installation
 
@@ -39,6 +42,28 @@ $ pip install signhost-api-python-client
 
 ## Usage
 
+```python
+import io
+from signhost import models
+from signhost.client import DefaultClient
+
+signhost = DefaultClient(api_key="str", app_key="str")
+transaction = models.Transaction(signers=[models.Signer(email="str")])
+
+transaction = signhost.transaction_init(transaction=transaction)
+signhost.transaction_file_put(
+    transaction.Id,
+    "file.pdf",
+    io.BytesIO(b"test"),
+)
+transaction = signhost.transaction_start(transaction.Id)
+
+print("Sign the contract over here", transaction.Signers[0].SignUrl)
+
+signhost.transaction_get(transaction.Id)
+signhost.transaction_file_get(transaction.Id, "file.pdf")
+signhost.receipt_get(transaction.Id)
+```
 Please see the [Command-line Reference] for details.
 
 ## Contributing

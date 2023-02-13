@@ -813,7 +813,6 @@ category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "livereload-2.6.3-py2.py3-none-any.whl", hash = "sha256:ad4ac6f53b2d62bb6ce1a5e6e96f1f00976a32348afedcb4b6d68df2a1d346e4"},
     {file = "livereload-2.6.3.tar.gz", hash = "sha256:776f2f865e59fde56490a56bcc6773b6917366bce0c267c60ee8aaf1a0959869"},
 ]
 
@@ -952,17 +951,6 @@ files = [
 ]
 
 [[package]]
-name = "msgpack-python"
-version = "0.5.6"
-description = "MessagePack (de)serializer."
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "msgpack-python-0.5.6.tar.gz", hash = "sha256:378cc8a6d3545b532dfd149da715abae4fda2a3adb6d74e525d0d5e51f46909b"},
-]
-
-[[package]]
 name = "mypy"
 version = "1.0.0"
 description = "Optional static typing for Python"
@@ -1050,33 +1038,6 @@ rtd = ["ipython", "sphinx-book-theme", "sphinx-design", "sphinxcontrib.mermaid (
 testing = ["beautifulsoup4", "coverage[toml]", "pytest (>=6,<7)", "pytest-cov", "pytest-param-files (>=0.3.4,<0.4.0)", "pytest-regressions", "sphinx (<5.2)", "sphinx-pytest"]
 
 [[package]]
-name = "nanomsg"
-version = "1.0"
-description = "Python library for nanomsg."
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "nanomsg-1.0.tar.gz", hash = "sha256:843be41258219d9d319cf434a68cac7669834ab9c993ea4bab5b3d87f62a7a13"},
-]
-
-[[package]]
-name = "nanoservice"
-version = "0.7.2"
-description = "nanoservice is a small Python library for writing lightweight networked services using nanomsg"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "nanoservice-0.7.2.tar.gz", hash = "sha256:eb0413df8040c96cfd3b0f5ffee1f4b48b03c00327bd561136f16aac4612f168"},
-]
-
-[package.dependencies]
-msgpack-python = "*"
-nanomsg = "*"
-nose = "*"
-
-[[package]]
 name = "nodeenv"
 version = "1.7.0"
 description = "Node.js virtual environment builder"
@@ -1090,36 +1051,6 @@ files = [
 
 [package.dependencies]
 setuptools = "*"
-
-[[package]]
-name = "nose"
-version = "1.3.7"
-description = "nose extends unittest to make testing easier"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "nose-1.3.7-py2-none-any.whl", hash = "sha256:dadcddc0aefbf99eea214e0f1232b94f2fa9bd98fa8353711dacb112bfcbbb2a"},
-    {file = "nose-1.3.7-py3-none-any.whl", hash = "sha256:9ff7c6cc443f8c51994b34a667bbcf45afd6d945be7477b52e97516fd17c53ac"},
-    {file = "nose-1.3.7.tar.gz", hash = "sha256:f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"},
-]
-
-[[package]]
-name = "oi"
-version = "0.4.2"
-description = "A library for writing long running processes with a cli interface"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "oi-0.4.2.tar.gz", hash = "sha256:c24f222c347d38b4f3a4c1e8048615c3dac08280a67e4ccbac9f41be46b12b71"},
-]
-
-[package.dependencies]
-colorama = "*"
-nanomsg = "*"
-nanoservice = "*"
-nose = "*"
 
 [[package]]
 name = "packaging"
@@ -1562,7 +1493,6 @@ files = [
     {file = "ruamel.yaml.clib-0.2.7-cp310-cp310-win_amd64.whl", hash = "sha256:d000f258cf42fec2b1bbf2863c61d7b8918d31ffee905da62dede869254d3b8a"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:045e0626baf1c52e5527bd5db361bc83180faaba2ff586e763d3d5982a876a9e"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_12_6_arm64.whl", hash = "sha256:721bc4ba4525f53f6a611ec0967bdcee61b31df5a56801281027a3a6d1c2daf5"},
-    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:41d0f1fa4c6830176eef5b276af04c89320ea616655d01327d5ce65e50575c94"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:4b3a93bb9bc662fc1f99c5c3ea8e623d8b23ad22f861eb6fce9377ac07ad6072"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-macosx_12_0_arm64.whl", hash = "sha256:a234a20ae07e8469da311e182e70ef6b199d0fbeb6c6cc2901204dd87fb867e8"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:15910ef4f3e537eea7fe45f8a5d19997479940d9196f357152a09031c5be59f3"},
@@ -2100,4 +2030,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "cacb9f165b5db1988e3328d4dfb588884371ba6e574f777e5f4f79e6ec4e2bea"
+content-hash = "14a805fba44006775a5f216fc0e6e3d937436922afa9022f8746639e96c01bdd"
