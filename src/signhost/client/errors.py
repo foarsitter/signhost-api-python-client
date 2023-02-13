@@ -2,7 +2,7 @@ from typing import Any
 from typing import Dict
 from typing import Optional
 
-from attr import define
+from attrs import define
 
 
 @define
