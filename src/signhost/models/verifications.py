@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
-from typing import Literal
+from typing import List, Literal
 from typing import Optional
 from typing import Union
 
@@ -92,7 +92,7 @@ class IDIN(Verification):
         description="Date of birth of idin consumer / signer",
         example="2001-12-31",
     )
-    Attributes: Optional[list[str]] = Field(
+    Attributes: Optional[List[str]] = Field(
         None,
         description="Contains all available iDIN attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
         # noqa
@@ -109,9 +109,9 @@ class PhoneNumber(Verification):
     Number: Optional[str] = Field(
         None,
         description="The mobile phone number of the signer.\n"
-        "Must conform to E.164,\n"
-        "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
-        "which requires the country calling code (e.g. +31).\n",
+                    "Must conform to E.164,\n"
+                    "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
+                    "which requires the country calling code (e.g. +31).\n",
         example="+31123456789",
     )
 
@@ -121,17 +121,17 @@ class Scribble(Verification):
     RequireHandsignature: Optional[bool] = Field(
         False,
         description="When set the signer is required to draw a hand signature,\n"
-        "either via computer mouse, trackpad, or touchscreen.\n",
+                    "either via computer mouse, trackpad, or touchscreen.\n",
     )
     ScribbleNameFixed: Optional[bool] = Field(
         False,
         description="When set the signer will not be able to change its scribble name.\n"
-        "When not set the signer can correct or provide a scribble name.\n",
+                    "When not set the signer can correct or provide a scribble name.\n",
     )
     ScribbleName: Optional[str] = Field(
         None,
         description="The name of the signer, this will be pre filled in the scribble form.\n"
-        "Required if `ScribbleNameFixed` is set.\n",
+                    "Required if `ScribbleNameFixed` is set.\n",
     )
 
 
@@ -145,10 +145,12 @@ class SigningCertificate(Verification):
 class SURFnet(Verification):
     Type: Literal["SURFnet"] = "SURFnet"
     Uid: Optional[str] = None
-    Attributes: Optional[list[str]] = Field(
+    Attributes: Optional[List[str]] = Field(
         None,
-        description="Contains all available SURFnet attributes.\nThese attributes may change, therefore we cannot guarantee the availability of any of these attributes.\n",
-        # noqa
+        description="Contains all available SURFnet attributes.\n"
+                    "These attributes may change, therefore we cannot guarantee "
+                    "the availability of any of these attributes.\n",
+
     )
 
 
