@@ -70,6 +70,14 @@ def transaction(
 
     transaction_created = client.transaction_init(t)
 
+    if (
+        transaction_created is None
+        or transaction_created.Id is None
+        or transaction_created.Signers is None
+        or len(transaction_created.Signers) == 0
+    ):  # pragma: no cover
+        raise Exception("Transaction not created")
+
     client.transaction_file_put(
         transaction_created.Id,
         "file.pdf",

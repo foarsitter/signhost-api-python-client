@@ -1,12 +1,10 @@
 """Test cases for the __main__ module."""
 import json
 
-import httpx
 import pytest
 from click.testing import CliRunner
 
 from signhost import __main__
-from signhost.__main__ import ResponseStorage
 
 
 @pytest.fixture
