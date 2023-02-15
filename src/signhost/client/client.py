@@ -1,5 +1,8 @@
+import base64
+import hashlib
 import io
 from json import JSONDecodeError
+from struct import pack
 from typing import Any
 from typing import Dict
 from typing import Type
@@ -160,8 +163,9 @@ class DefaultClient(BaseClient):
         self, transaction_id: str, file_id: str, file_content: io.IOBase
     ) -> bool:
         """PUT /api/transaction/{transactionId}/file/{fileId}"""
-        # sha = hashlib.sha256(file_content.read())
-        # file_digest = base64.urlsafe_b64encode(sha.digest()).decode("utf-8")
+        sha = hashlib.sha256(file_content.read())
+        digest = sha.digest()
+        b64_digest = base64.b64encode(pack(f"{len(digest)}s", digest)).decode("utf-8")
 
         file_content.seek(0)
 
@@ -170,7 +174,7 @@ class DefaultClient(BaseClient):
             content=file_content,
             headers={
                 "Content-Type": "application/pdf",
-                # "Digest": f"SHA256={file_digest}",
+                "Digest": f"SHA256={b64_digest}",
             },
         )
 
