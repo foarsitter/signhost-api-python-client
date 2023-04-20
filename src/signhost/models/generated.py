@@ -336,7 +336,7 @@ class Signer(BaseModel):
         "\nDefault value is the value of `SendSignRequest`\n",
     )
     Language: Optional[Language] = Field(
-        "nl-NL",
+        Language.NL,
         description="The language of the receiving user, "
         "only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",
     )
