@@ -1,5 +1,5 @@
 pip==23.1
-pre-commit==3.0.4
+pre-commit==3.2.2
 nox==2022.11.21
 nox-poetry==1.0.2
 poetry==1.2.2
