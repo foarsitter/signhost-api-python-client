@@ -46,6 +46,7 @@ jobs:
         run: |
           pip install --constraint=.github/workflows/constraints.txt pip
           pip --version
+          pip install --upgrade pipx
 
       - name: Upgrade pip in virtual environments
         shell: python
