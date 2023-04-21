@@ -4,6 +4,7 @@ import io
 from json import JSONDecodeError
 from struct import pack
 from typing import Any
+from typing import AsyncIterator
 from typing import Dict
 from typing import Mapping
 from typing import Type
@@ -289,7 +290,7 @@ class AsyncClient(BaseClient):
 
         response = await self.client.put(
             f"transaction/{transaction_id}/file/{file_id}",
-            content=file_content,
+            content=bytes_as_stream(file_content),
             headers={
                 "Content-Type": "application/pdf",
                 "Digest": f"SHA256={digest}",
@@ -313,3 +314,13 @@ class AsyncClient(BaseClient):
             raise self.create_error(response)
 
         return True
+
+
+CHUNK_SIZE = 65_536
+
+
+async def bytes_as_stream(file_content: io.IOBase) -> AsyncIterator[bytes]:
+    chunk = file_content.read(CHUNK_SIZE)
+    while chunk:
+        yield chunk
+        chunk = file_content.read(CHUNK_SIZE)

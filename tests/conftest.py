@@ -9,6 +9,7 @@ import respx
 from httpx import Response
 
 from signhost.client import RequestFixtures
+from signhost.client.client import AsyncClient
 from signhost.client.client import DefaultClient
 
 
@@ -37,6 +38,15 @@ def signhost() -> DefaultClient:
 
 
 @pytest.fixture(scope="session")
+def asignhost() -> AsyncClient:
+    api_key = os.getenv("SIGNHOST_API_KEY", "empty")
+    app_key = os.getenv("SIGNHOST_APP_KEY", "empty")
+
+    client = AsyncClient(api_key, app_key)
+    return client
+
+
+@pytest.fixture(scope="session")
 def request_fixtures(test_fixtures_path: Path) -> RequestFixtures:
     logging.getLogger().info("Loading test fixtures from %s", str(test_fixtures_path))
     data: RequestFixtures = json.load(test_fixtures_path.open())
@@ -53,7 +63,6 @@ def mocked_api(
         for url, methods in request_fixtures.items():
             for method, status_codes in methods.items():
                 for status_code, response in status_codes.items():
-
                     if response == {"binary": True}:
                         respx.request(method=method, url=url) % Response(
                             status_code=int(status_code), content=test_file.read_bytes()
