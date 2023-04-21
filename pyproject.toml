@@ -52,6 +52,7 @@ myst-parser = {version = ">=0.16.1"}
 respx = "^0.20.1"
 pygments = "^2.14.0"
 devtools = "^0.10.0"
+pytest-asyncio = "^0.21.0"
 
 [tool.poetry.scripts]
 signhost = "signhost.__main__:main"
