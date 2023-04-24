@@ -22,7 +22,7 @@ Changelog = "https://github.com/foarsitter/signhost-api-python-client/releases"
 python = "^3.7"
 click = ">=8.0.1"
 httpx = "^0.23.3"
-pydantic = "^1.10.4"
+pydantic = ">=2.0a1"
 attrs = "^22.2.0"
 
 [tool.poetry.group.dev.dependencies]
