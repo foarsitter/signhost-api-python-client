@@ -5,8 +5,8 @@ import httpx
 import pytest
 from respx import MockRouter
 
+from signhost.client import DefaultClient
 from signhost.client import errors
-from signhost.client.client import DefaultClient
 from signhost.models import Transaction
 
 

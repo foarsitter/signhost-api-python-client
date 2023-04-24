@@ -5,8 +5,8 @@ import httpx
 import pytest
 from respx import MockRouter
 
+from signhost.client import AsyncClient
 from signhost.client import errors
-from signhost.client.client import AsyncClient
 from signhost.models import Transaction
 
 
@@ -77,3 +77,11 @@ async def test_500(
 
     with pytest.raises(errors.SignhostServerError):
         await asignhost.receipt_get(transaction_id)
+
+
+async def test_context_manager(
+    respx_mock: MockRouter,
+    mocked_api: None,
+) -> None:
+    async with AsyncClient("", "") as asignhost:
+        await asignhost.transaction_init(Transaction())

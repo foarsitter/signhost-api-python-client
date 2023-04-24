@@ -8,9 +8,9 @@ import pytest
 import respx
 from httpx import Response
 
+from signhost.client import AsyncClient
+from signhost.client import DefaultClient
 from signhost.client import RequestFixtures
-from signhost.client.client import AsyncClient
-from signhost.client.client import DefaultClient
 
 
 @pytest.fixture(scope="session")
