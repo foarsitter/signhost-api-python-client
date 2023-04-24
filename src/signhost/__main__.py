@@ -110,7 +110,6 @@ class ResponseStorage:
         self.responses: RequestFixtures = {}
 
     def __call__(self, response: httpx.Response) -> None:
-
         response.read()
 
         try:

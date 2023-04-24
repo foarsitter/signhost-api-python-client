@@ -18,7 +18,6 @@ def test_main_succeeds(runner: CliRunner, mocked_api: None, tmp_path: str) -> No
     """It exits with a status code of zero."""
 
     with runner.isolated_filesystem():
-
         document = Path(__file__).parent / "invoice.pdf"
 
         result = runner.invoke(
