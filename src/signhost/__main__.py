@@ -7,8 +7,8 @@ from pathlib import Path
 import click
 import httpx
 
+from signhost.client import DefaultClient
 from signhost.client import RequestFixtures
-from signhost.client.client import DefaultClient
 from signhost.models import Signer
 from signhost.models import Transaction
 from signhost.models import verifications
@@ -110,7 +110,6 @@ class ResponseStorage:
         self.responses: RequestFixtures = {}
 
     def __call__(self, response: httpx.Response) -> None:
-
         response.read()
 
         try:
