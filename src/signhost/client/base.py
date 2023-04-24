@@ -2,14 +2,11 @@ from json import JSONDecodeError
 from typing import Dict
 from typing import Mapping
 from typing import Type
-from typing import TypeVar
 
 import httpx
 
+from ..models import ResponseType
 from . import errors
-
-
-_T = TypeVar("_T")
 
 
 class BaseClient:
@@ -44,8 +41,11 @@ class BaseClient:
         return headers
 
     def process_response(
-        self, response: httpx.Response, model: Type[_T], status_code_success: int = 200
-    ) -> _T:
+        self,
+        response: httpx.Response,
+        model: Type[ResponseType],
+        status_code_success: int = 200,
+    ) -> ResponseType:
         try:
             if response.status_code == status_code_success:
                 response_json = response.json()
