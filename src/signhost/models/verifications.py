@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from datetime import date
-from enum import Enum
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -12,29 +11,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from typing_extensions import Annotated
 
-
-class VerificationType(Enum):
-    Consent = "Consent"
-    DigiD = "DigiD"
-    eHerkenning = "eHerkenning"
-    eIDAS_Login = "eIDAS Login"
-    iDeal = "iDeal"
-    iDIN = "iDIN"
-    itsme_Identification = "itsme Identification"
-    PhoneNumber = "PhoneNumber"
-    Scribble = "Scribble"
-    itsme_sign = "itsme sign"
-    SigningCertificate = "SigningCertificate"
-    SURFnet = "SURFnet"
-    ZealiD_Qualified = "ZealiD Qualified"
-    IPAddress = "IPAddress"
-
-
-class Betrouwbaarheidsniveau(Enum):
-    Basis = "Basis"
-    Midden = "Midden"
-    Substantieel = "Substantieel"
-    Hoog = "Hoog"
+from signhost.models import enums
 
 
 class Verification(BaseModel):
@@ -52,7 +29,7 @@ class DigiD(Verification):
         description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",
         # noqa
     )
-    Betrouwbaarheidsniveau: Optional[Betrouwbaarheidsniveau] = Field(
+    Betrouwbaarheidsniveau: Optional[enums.Betrouwbaarheidsniveau] = Field(
         None,
         description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",
         # noqa

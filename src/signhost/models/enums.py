@@ -65,3 +65,27 @@ class FormSetType(Enum):
     Signature = "Signature"
     Check = "Check"
     SingleLine = "SingleLine"
+
+
+class VerificationType(Enum):
+    Consent = "Consent"
+    DigiD = "DigiD"
+    eHerkenning = "eHerkenning"
+    eIDAS_Login = "eIDAS Login"
+    iDeal = "iDeal"
+    iDIN = "iDIN"
+    itsme_Identification = "itsme Identification"
+    PhoneNumber = "PhoneNumber"
+    Scribble = "Scribble"
+    itsme_sign = "itsme sign"
+    SigningCertificate = "SigningCertificate"
+    SURFnet = "SURFnet"
+    ZealiD_Qualified = "ZealiD Qualified"
+    IPAddress = "IPAddress"
+
+
+class Betrouwbaarheidsniveau(Enum):
+    Basis = "Basis"
+    Midden = "Midden"
+    Substantieel = "Substantieel"
+    Hoog = "Hoog"
