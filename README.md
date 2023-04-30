@@ -29,7 +29,7 @@
 
 - httpx
 - pydantic
-- attr
+- attrs
 - click
 
 ## Installation
@@ -65,6 +65,15 @@ signhost.transaction_file_get(transaction.Id, "file.pdf")
 signhost.receipt_get(transaction.Id)
 ```
 
+### Async support
+
+```python
+from signhost.client import AsyncClient
+
+async with AsyncClient(api_key="str", app_key="str") as signhost:
+    signhost.transaction_get("xyz")
+```
+
 Please see the [Command-line Reference] for details.
 
 ## Contributing
@@ -84,8 +93,9 @@ please [file an issue] along with a detailed description.
 
 ## Credits
 
-This project was generated from [@cjolowicz]'s [Hypermodern Python Cookiecutter] template.
+This project was initiated by [dok.legal] and was generated from [@cjolowicz]'s [Hypermodern Python Cookiecutter] template.
 
+[dok.legal]: https://dok.legal/
 [@cjolowicz]: https://github.com/cjolowicz
 [pypi]: https://pypi.org/
 [hypermodern python cookiecutter]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
