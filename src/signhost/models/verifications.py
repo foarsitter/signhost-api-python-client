@@ -51,7 +51,7 @@ class IDeal(Verification):
         None,
         description="The IBAN of the signer.\nWhen provided during the creation of the transaction this IBAN is\nverified during the verification flow to make sure these and the actual IBAN number match.\n",
         # noqa
-        example="NL13TEST0123456789",
+        examples=["NL13TEST0123456789"],
     )
     AccountHolderName: Optional[str] = None
     AccountHolderCity: Optional[str] = None
@@ -68,7 +68,7 @@ class IDIN(Verification):
     AccountHolderDateOfBirth: Optional[date] = Field(
         None,
         description="Date of birth of idin consumer / signer",
-        example="2001-12-31",
+        examples=["2001-12-31"],
     )
     Attributes: Optional[List[str]] = Field(
         None,
@@ -90,7 +90,7 @@ class PhoneNumber(Verification):
         "Must conform to E.164,\n"
         "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
         "which requires the country calling code (e.g. +31).\n",
-        example="+31123456789",
+        examples=["+31123456789"],
     )
 
 

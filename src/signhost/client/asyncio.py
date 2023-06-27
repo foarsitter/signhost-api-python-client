@@ -90,7 +90,7 @@ class AsyncClient(BaseClient):
         self, transaction: models.Transaction
     ) -> models.Transaction:
         """POST /api/transaction"""
-        data: str = transaction.json()
+        data: str = transaction.model_dump_json()
 
         headers = self.create_content_headers(data)
 

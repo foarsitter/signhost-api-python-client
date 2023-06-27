@@ -151,7 +151,7 @@ class PhoneNumberAuthentication(Authentication):
         "Must conform to E.164,\n"
         "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
         "which requires the country calling code (e.g. +31).\n",
-        example="+31123456789",
+        examples=["+31123456789"],
     )
 
 
@@ -183,7 +183,7 @@ class ItsmeIdentification(Verification):
         "Must be conform E.164,\n"
         "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
         "which requires the country calling code (Only the Belgian country calling code is supported: +32).\n",
-        example="+32123456789",
+        examples=["+32123456789"],
     )
     Attributes: Optional[List[str]] = Field(
         None,
@@ -213,7 +213,7 @@ class Signer(BaseModel):
     Email: str = Field(
         ...,
         description="The e-mail address of the signer",
-        example="john.doe@example.com",
+        examples=["john.doe@example.com"],
     )
     IntroText: Optional[str] = Field(
         None,
