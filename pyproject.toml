@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "signhost-api-python-client"
-version = "0.2.0"
+version = "0.3.0"
 description = "Signhost Api Python Client"
 authors = ["Jelmer Draaijer <info@jelmert.nl>"]
 license = "MIT"
