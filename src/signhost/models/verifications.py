@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from datetime import date
-from enum import Enum
 from typing import List
 from typing import Literal
 from typing import Optional
@@ -12,29 +11,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from typing_extensions import Annotated
 
-
-class VerificationType(Enum):
-    Consent = "Consent"
-    DigiD = "DigiD"
-    eHerkenning = "eHerkenning"
-    eIDAS_Login = "eIDAS Login"
-    iDeal = "iDeal"
-    iDIN = "iDIN"
-    itsme_Identification = "itsme Identification"
-    PhoneNumber = "PhoneNumber"
-    Scribble = "Scribble"
-    itsme_sign = "itsme sign"
-    SigningCertificate = "SigningCertificate"
-    SURFnet = "SURFnet"
-    ZealiD_Qualified = "ZealiD Qualified"
-    IPAddress = "IPAddress"
-
-
-class Betrouwbaarheidsniveau(Enum):
-    Basis = "Basis"
-    Midden = "Midden"
-    Substantieel = "Substantieel"
-    Hoog = "Hoog"
+from signhost.models import enums
 
 
 class Verification(BaseModel):
@@ -52,7 +29,7 @@ class DigiD(Verification):
         description="When provided, the provided value must match the BSN of the credentials returned by DigiD.\nThe BSN is required to match an '11-proef'.\n",
         # noqa
     )
-    Betrouwbaarheidsniveau: Optional[Betrouwbaarheidsniveau] = Field(
+    Betrouwbaarheidsniveau: Optional[enums.Betrouwbaarheidsniveau] = Field(
         None,
         description="The level of confidence with which the identity of the signer has been determined.\nFor further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",
         # noqa
@@ -74,7 +51,7 @@ class IDeal(Verification):
         None,
         description="The IBAN of the signer.\nWhen provided during the creation of the transaction this IBAN is\nverified during the verification flow to make sure these and the actual IBAN number match.\n",
         # noqa
-        example="NL13TEST0123456789",
+        examples=["NL13TEST0123456789"],
     )
     AccountHolderName: Optional[str] = None
     AccountHolderCity: Optional[str] = None
@@ -91,7 +68,7 @@ class IDIN(Verification):
     AccountHolderDateOfBirth: Optional[date] = Field(
         None,
         description="Date of birth of idin consumer / signer",
-        example="2001-12-31",
+        examples=["2001-12-31"],
     )
     Attributes: Optional[List[str]] = Field(
         None,
@@ -113,7 +90,7 @@ class PhoneNumber(Verification):
         "Must conform to E.164,\n"
         "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
         "which requires the country calling code (e.g. +31).\n",
-        example="+31123456789",
+        examples=["+31123456789"],
     )
 
 

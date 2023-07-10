@@ -74,7 +74,7 @@ class DefaultClient(BaseClient):
     def transaction_init(self, transaction: models.Transaction) -> models.Transaction:
         """POST /api/transaction"""
 
-        data = transaction.json()
+        data = transaction.model_dump_json()
         headers = self.create_content_headers(data)
 
         response = self.client.post("transaction", content=data, headers=headers)

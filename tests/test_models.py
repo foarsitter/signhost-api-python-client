@@ -19,7 +19,7 @@ def test_validation_discriminated_union() -> None:
         Email="test@pytest.io",
     )
 
-    p = Signer.parse_obj(s.dict())
+    p = Signer.model_validate(s.model_dump())
 
     assert isinstance(p.Verifications[0], verifications.Consent)
     assert isinstance(p.Verifications[1], verifications.DigiD)

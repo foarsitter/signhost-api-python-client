@@ -15,20 +15,15 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import Field
 
-from signhost.models.enums import Betrouwbaarheidsniveau1
-from signhost.models.enums import Code
-from signhost.models.enums import FormSetType
-from signhost.models.enums import Language
-from signhost.models.enums import Rel
-from signhost.models.enums import Status
-from signhost.models.enums import Type
+from signhost.models import enums
+from signhost.models import forms
 from signhost.models.verifications import Verification
 from signhost.models.verifications import VerificationAnnotatedType
 
 
 class Activity(BaseModel):
     Id: Optional[str] = None
-    Code: Optional[Code] = Field(
+    Code: Optional[enums.Code] = Field(
         None,
         description="* 101 -\tInvitation sent\n"
         "* 102 -\tReceived\n"
@@ -79,7 +74,7 @@ class Receiver(BaseModel):
 
 
 class Authentication(BaseModel):
-    Type: Type = Field(
+    Type: enums.Type = Field(
         ...,
         description="Type of the authentication object.\n"
         "The `Type` property **must** be the first property in the json!\n\n"
@@ -89,7 +84,9 @@ class Authentication(BaseModel):
 
 
 class Link(BaseModel):
-    Rel: Optional[Rel] = Field(None, description="The type of file you can download.")
+    Rel: Optional[enums.Rel] = Field(
+        None, description="The type of file you can download."
+    )
     Type: Optional[str] = Field(
         None,
         description="The type of the file you can expect to download. "
@@ -97,64 +94,6 @@ class Link(BaseModel):
     )
     Link: Optional[str] = Field(
         None, description="Url containing the link to the file."
-    )
-
-
-class Signers(BaseModel):
-    FormSets: Optional[List[str]] = Field(
-        None, description="List of formset keys to be assigned to this signer."
-    )
-
-
-class Location(BaseModel):
-    Search: Optional[str] = Field(
-        None,
-        description="The text to search in the pdf document to use as "
-        "the position for the field. For example `{{Signer1}}`.",
-    )
-    Occurence: Optional[int] = Field(
-        None, description="When using text search, only match this matched occurence."
-    )
-    Top: Optional[int] = Field(
-        None, description="Offset from the top of the search text or the page"
-    )
-    Right: Optional[int] = Field(
-        None, description="Offset from the right of the search or the page"
-    )
-    Bottom: Optional[int] = Field(
-        None, description="Offset from the bottom of the search or the page"
-    )
-    Left: Optional[int] = Field(
-        None, description="Offset from the left of the search or the page"
-    )
-    Width: Optional[int] = Field(
-        None,
-        description="The width of the field, can’t be used when both Left and Right are specified.\n"
-        "For signature and seal fields we suggest a width of 140.\n",
-    )
-    Height: Optional[int] = Field(
-        None,
-        description="The height of the field, can’t be used when both Bottom and Top are specified.\n"
-        "For signature and seal fields we suggest a height of 70.\n",
-    )
-    PageNumber: Optional[int] = Field(
-        None, description="On which page the field should be placed."
-    )
-
-
-class FormSets(BaseModel):
-    Type: Optional[FormSetType] = Field(
-        None,
-        description="Field type to create.\n"
-        "\n"
-        "* Seal is not yet implemented, this will specify the properties of a seal.\n"
-        "* Signature, specifies a signature field\n"
-        "* Check, specifies a checkbox. You'll have to set the `value` property\n"
-        "* SingleLine, specifies a single line textbox\n",
-    )
-    Location: Optional[Location] = Field(
-        None,
-        description="Specify where the field should be placed within the document.",
     )
 
 
@@ -174,11 +113,11 @@ class FileMetaData(BaseModel):
             "addition.\n"
         ),
     )
-    Signers: Optional[Dict[str, Signers]] = Field(
+    Signers: Optional[Dict[str, forms.Signers]] = Field(
         None,
         description="Map of array of formsets.\nEach key should be a valid signer id.\n",
     )
-    FormSets: Optional[Dict[str, Dict[str, FormSets]]] = Field(
+    FormSets: Optional[Dict[str, Dict[str, forms.FormSets]]] = Field(
         None,
         description="Map of one or more form set definitions.\n"
         "The key of the map will be the formset name.\n"
@@ -198,7 +137,7 @@ class DigiDAuthentication(Authentication):
         description="The provided value must match the BSN of the credentials returned by DigiD.\n"
         "The BSN is required to match an '11-proef'.\n",
     )
-    Betrouwbaarheidsniveau: Optional[Betrouwbaarheidsniveau1] = Field(
+    Betrouwbaarheidsniveau: Optional[enums.Betrouwbaarheidsniveau1] = Field(
         None,
         description="The level of confidence with which the identity of the signer has been determined.\n"
         "For further information, please refer to [Logius](https://www.logius.nl/diensten/digid/hoe-werkt-het).\n",
@@ -212,7 +151,7 @@ class PhoneNumberAuthentication(Authentication):
         "Must conform to E.164,\n"
         "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
         "which requires the country calling code (e.g. +31).\n",
-        example="+31123456789",
+        examples=["+31123456789"],
     )
 
 
@@ -244,7 +183,7 @@ class ItsmeIdentification(Verification):
         "Must be conform E.164,\n"
         "[the international public telecommunication numbering plan](https://en.wikipedia.org/wiki/E.164),\n"
         "which requires the country calling code (Only the Belgian country calling code is supported: +32).\n",
-        example="+32123456789",
+        examples=["+32123456789"],
     )
     Attributes: Optional[List[str]] = Field(
         None,
@@ -274,7 +213,7 @@ class Signer(BaseModel):
     Email: str = Field(
         ...,
         description="The e-mail address of the signer",
-        example="john.doe@example.com",
+        examples=["john.doe@example.com"],
     )
     IntroText: Optional[str] = Field(
         None,
@@ -335,8 +274,8 @@ class Signer(BaseModel):
         description="Send the sign confirmation to the signer his e-mail address."
         "\nDefault value is the value of `SendSignRequest`\n",
     )
-    Language: Optional[Language] = Field(
-        Language.NL,
+    Language: Optional[enums.Language] = Field(
+        enums.Language.NL,
         description="The language of the receiving user, "
         "only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",
     )
@@ -392,7 +331,7 @@ class Transaction(BaseModel):
     Files: Optional[Dict[str, FileEntry]] = Field(
         None, description="A map of files attached to this transaction."
     )
-    Language: Optional[Language] = Field(
+    Language: Optional[enums.Language] = Field(
         None,
         description="The language of the sender notifications and the receipt,"
         " only de-DE, en-US, es-ES, fr-FR, it-IT, pl-PL and nl-NL are allowed.",
@@ -420,7 +359,7 @@ class Transaction(BaseModel):
     SendEmailNotifications: Optional[bool] = Field(
         True, description="Send e-mail notifications to the sender."
     )
-    Status: Optional[Status] = Field(
+    Status: Optional[enums.Status] = Field(
         None,
         description="Current transaction status.\n\n"
         "* 5 - Waiting for document\n"
