@@ -19,7 +19,7 @@ classifiers = [
 Changelog = "https://github.com/foarsitter/signhost-api-python-client/releases"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 click = ">=8.0.1"
 httpx = "^0.24.1"
 pydantic = ">=2.0.1"
@@ -52,6 +52,7 @@ respx = "^0.20.1"
 pygments = "^2.14.0"
 devtools = "^0.10.0"
 pytest-asyncio = "^0.21.0"
+tornado = "^6.2.2"
 
 [tool.poetry.scripts]
 signhost = "signhost.__main__:main"
