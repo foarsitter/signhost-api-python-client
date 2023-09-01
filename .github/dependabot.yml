@@ -18,4 +18,4 @@ updates:
       interval: daily
     versioning-strategy: lockfile-only
     allow:
-      - dependency-type: "all"
+      - dependency-type: "production"
