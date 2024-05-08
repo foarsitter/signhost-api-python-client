@@ -1,4 +1,5 @@
 """Sphinx configuration."""
+
 project = "Signhost Api Python Client"
 author = "Jelmer Draaijer"
 copyright = "2023, Jelmer Draaijer"
